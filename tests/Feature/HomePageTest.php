@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Media;
 use App\Models\MenuItem;
 use App\Models\Page;
 use App\Models\Project;
@@ -148,6 +149,30 @@ class HomePageTest extends TestCase
         Service::published()->firstOrFail()->delete();
         Service::create(['title' => 'Taslak Hizmet', 'status' => 'draft']);
         $this->assertSame($services - 1, $stat('services'), 'Silinen hizmet düşmeli, taslak sayılmamalı');
+    }
+
+    /** Kullanıcı talebi: hero görseli Boğaziçi yalıları; var olan veritabanı migration ile güncellenir (bir kez) */
+    public function test_hero_bosphorus_image_migration(): void
+    {
+        Storage::fake('media');
+        Storage::fake('local');
+        config(['media.avif' => false]);
+
+        $migration = require database_path('migrations/2026_11_08_230000_set_home_hero_bosphorus_image.php');
+        $migration->up();
+        $migration->up();   // tekrar çalışınca kopya oluşturmamalı
+
+        $this->assertSame(1, Media::where('original_name', 'bogazici-yalilar.jpg')->count());
+
+        $home = Page::where('key', 'home')->firstOrFail();
+        $this->assertSame('bogazici-yalilar.jpg', $home->cover->original_name);
+        $this->assertSame('Boğaziçi yalıları', $home->field('hero.image_caption'));
+        $this->assertNotEmpty($home->cover->alt);
+
+        $html = $this->get('/')->getContent();
+        $this->assertStringContainsString($home->cover->uuid, $html);
+        $this->assertStringContainsString('Görsel: Boğaziçi yalıları', $html);
+        $this->assertStringContainsString('bg-[#111111]/30', $html);   // hafif karartma
     }
 
     public function test_unknown_page_returns_branded_404(): void

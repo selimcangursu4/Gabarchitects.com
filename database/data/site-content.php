@@ -36,8 +36,9 @@ return [
             'eyebrow' => 'Mimarlık · Proje Geliştirme · İnşaat',
             'title' => 'Arsadan anahtar teslime.',
             'text' => 'Entegre gayrimenkul proje geliştirme ve inşaat çözümleri.',
-            'image' => 'levent-villa',
-            'image_caption' => 'İstanbul-Levent Villa',
+            // Kullanıcı talebi (2026-11-08): hero görseli Boğaziçi yalıları
+            'image' => 'bogazici-yalilar',
+            'image_caption' => 'Boğaziçi yalıları',
         ],
         'statement' => 'Her projeyi yalnızca bir yapı olarak değil; bulunduğu bölgeye, yatırımcısına ve geleceğe değer katan bir yaşam ve yatırım alanı olarak değerlendiriyoruz.',
         'intro' => [
@@ -168,6 +169,7 @@ return [
     // Görsel anahtarı → kaynak dosya (mevcut sitedeki /wp-content/uploads yolu).
     // Hepsi 3D görselleştirme (render). Profesyonel fotoğraf çekimi önerilir.
     'image_sources' => [
+        'bogazici-yalilar' => 'Kullanıcı tarafından sağlandı (2026-11-08) — ana sayfa hero görseli',
         'sapanca-villa' => '2026/07/dc531417-042b-4ed4-b5ac-9cb2eb538f4f.jpg',
         'etiler-kentsel-donusum' => '2026/07/PHOTO-2022-05-28-01-48-33-2.jpg',
         'arkas-railport-terminali' => '2026/07/slider1__ResizedImageWzE5MjAsMTA4MF0.jpg',
