@@ -1,0 +1,358 @@
+/* ==========================================================================
+   GAB Architects — Design System
+   Konsept: "Plan & Işık". Detaylar: docs/DESIGN_SYSTEM.md
+   ========================================================================== */
+
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+@import '@fontsource-variable/manrope';
+
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/* Tema seçimi <html data-theme="dark|light"> üzerinden yapılır. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* --------------------------------------------------------------------------
+   1. Ham token'lar (brief §2). Bileşenler bu değişkenleri doğrudan kullanmaz;
+      Tailwind teması (aşağıda) üzerinden kullanır.
+   -------------------------------------------------------------------------- */
+:root,
+[data-theme='light'] {
+    --gab-bg: #f5f4f0;
+    --gab-surface: #ffffff;
+    --gab-fg: #171717;
+    --gab-muted: #77736d;
+    /* Küçük metin (≤14px) için AA kontrastı: 5.1:1. Brief'teki #77736D bu boyutta 4.3:1 kalıyor. */
+    --gab-subtle: #6b6761;
+    --gab-line: #dedbd4;
+    --gab-accent: #a58f70;
+    --gab-inverse-bg: #111111;
+    --gab-inverse-fg: #f5f3ef;
+    color-scheme: light;
+}
+
+[data-theme='dark'] {
+    --gab-bg: #111111;
+    --gab-surface: #191919;
+    --gab-fg: #f5f3ef;
+    --gab-muted: #a6a39d;
+    --gab-subtle: #a6a39d;
+    --gab-line: #353535;
+    --gab-accent: #b7a58a;
+    --gab-inverse-bg: #f5f4f0;
+    --gab-inverse-fg: #171717;
+    color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   2. Tailwind teması
+   -------------------------------------------------------------------------- */
+@theme inline {
+    --color-bg: var(--gab-bg);
+    --color-surface: var(--gab-surface);
+    --color-fg: var(--gab-fg);
+    --color-muted: var(--gab-muted);
+    --color-subtle: var(--gab-subtle);
+    --color-line: var(--gab-line);
+    --color-accent: var(--gab-accent);
+    --color-inverse-bg: var(--gab-inverse-bg);
+    --color-inverse-fg: var(--gab-inverse-fg);
+    /* Görsel üzerindeki metin: temadan bağımsız her zaman açık renk */
+    --color-on-image: #f5f3ef;
+}
+
+@theme {
+    --font-serif: 'Instrument Serif', 'Times New Roman', ui-serif, serif;
+    --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /* Tipografi ölçeği (akışkan) */
+    --text-display: clamp(3.25rem, 1.6rem + 7.2vw, 9rem);
+    --text-display--line-height: 0.92;
+    --text-display--letter-spacing: -0.025em;
+    --text-h1: clamp(2.75rem, 1.6rem + 4.8vw, 6.25rem);
+    --text-h1--line-height: 0.98;
+    --text-h1--letter-spacing: -0.02em;
+    --text-h2: clamp(2.25rem, 1.5rem + 3.2vw, 4.5rem);
+    --text-h2--line-height: 1.02;
+    --text-h2--letter-spacing: -0.015em;
+    --text-h3: clamp(1.625rem, 1.3rem + 1.2vw, 2.375rem);
+    --text-h3--line-height: 1.1;
+    --text-statement: clamp(1.75rem, 1.2rem + 2.3vw, 3.5rem);
+    --text-statement--line-height: 1.12;
+    --text-statement--letter-spacing: -0.01em;
+    --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem);
+    --text-lead--line-height: 1.6;
+    --text-eyebrow: 0.75rem;
+    --text-eyebrow--line-height: 1.2;
+    --text-eyebrow--letter-spacing: 0.18em;
+
+    --ease-architect: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --breakpoint-3xl: 1920px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Temel stiller
+   -------------------------------------------------------------------------- */
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-padding-top: 6rem;
+    }
+
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-fg);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.7;
+        font-weight: 400;
+    }
+
+    /* Tema değişimi sırasında yumuşak geçiş (yalnızca .theme-transition aktifken) */
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+        transition:
+            background-color 280ms ease,
+            color 280ms ease,
+            border-color 280ms ease,
+            fill 280ms ease !important;
+    }
+
+    ::selection {
+        background-color: var(--color-accent);
+        color: #111111;
+    }
+
+    :focus-visible {
+        outline: 1px solid var(--color-accent);
+        outline-offset: 4px;
+    }
+
+    img,
+    video {
+        max-width: 100%;
+        height: auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        text-wrap: balance;
+    }
+
+    p {
+        text-wrap: pretty;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+/* Çerez bildirimi, ilan sayfasındaki mobil WhatsApp/Ara çubuğunun üstünde durur (butonları örtmez) */
+@media (width < 64rem) {
+    body:has([data-bottom-bar]) .cookie-notice {
+        bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* --------------------------------------------------------------------------
+   4. Bileşen sınıfları (yalnızca tekrar eden, Blade bileşeni olmayan parçalar)
+   -------------------------------------------------------------------------- */
+@layer components {
+    .container-gab {
+        width: 100%;
+        max-width: 1600px;
+        margin-inline: auto;
+        padding-inline: clamp(1.25rem, 4vw, 4rem);
+    }
+
+    .grid-gab {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        column-gap: clamp(1rem, 2vw, 2rem);
+    }
+
+    @media (min-width: 64rem) {
+        .grid-gab {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+        }
+    }
+
+    .section-y {
+        padding-block: clamp(5rem, 3rem + 8vw, 11rem);
+    }
+
+    .eyebrow {
+        font-family: var(--font-sans);
+        font-size: var(--text-eyebrow);
+        line-height: var(--text-eyebrow--line-height);
+        letter-spacing: var(--text-eyebrow--letter-spacing);
+        text-transform: uppercase;
+        font-weight: 500;
+        color: var(--color-subtle);
+    }
+
+    /* Mimari pafta grid'i: içerik alanının arkasında çok ince kolon çizgileri */
+    .plan-lines {
+        position: relative;
+    }
+
+    @media (min-width: 64rem) {
+        .plan-lines::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            margin-inline: auto;
+            max-width: 1600px;
+            padding-inline: clamp(1.25rem, 4vw, 4rem);
+            /* 4 eşit kolon: 25% genişlikte tekrar eden 1px çizgi + sağ kenar */
+            background-image:
+                linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+                linear-gradient(to left, var(--color-line) 1px, transparent 1px);
+            background-size: 25% 100%, 100% 100%;
+            background-repeat: repeat-x, no-repeat;
+            background-origin: content-box;
+            background-clip: content-box;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+    }
+
+    /* Header durumları (JS: data-scrolled / data-hidden / data-menu) */
+    .site-header {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        z-index: 50;
+        color: var(--color-fg);
+        border-bottom: 1px solid transparent;
+        transition:
+            transform 600ms var(--ease-architect),
+            background-color 400ms ease,
+            color 400ms ease,
+            border-color 400ms ease;
+    }
+
+    .site-header[data-over-hero]:not([data-scrolled='true']):not([data-menu='true']) {
+        color: var(--color-on-image);
+    }
+
+    .site-header[data-scrolled='true']:not([data-menu='true']) {
+        background-color: color-mix(in srgb, var(--color-bg) 88%, transparent);
+        border-bottom-color: var(--color-line);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+    }
+
+    .site-header[data-hidden='true'] {
+        transform: translateY(-100%);
+    }
+
+    /* "Ölçü çizgisi": hover/focus'ta soldan sağa çizilen ince çizgi */
+    .measure-line {
+        position: relative;
+    }
+
+    .measure-line::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background: var(--color-accent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 700ms var(--ease-architect);
+    }
+
+    .group:hover .measure-line::after,
+    .group:focus-visible .measure-line::after {
+        transform: scaleX(1);
+    }
+
+    /* Görsel yavaş yakınlaşma */
+    .img-zoom {
+        transition: transform 1100ms var(--ease-architect);
+        will-change: transform;
+    }
+
+    .group:hover .img-zoom,
+    .group:focus-visible .img-zoom {
+        transform: scale(1.03);
+    }
+
+    /* Zengin metin (CMS içerikleri için) */
+    .prose-gab {
+        max-width: 68ch;
+        font-size: var(--text-lead);
+        line-height: 1.75;
+        color: var(--color-fg);
+    }
+
+    .prose-gab > * + * {
+        margin-top: 1.25em;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   5. Hareket — scroll reveal (JS [data-reveal] öğelerine .is-visible ekler)
+   -------------------------------------------------------------------------- */
+@media (scripting: enabled) {
+    .js [data-reveal] {
+        opacity: 0;
+        transform: translate3d(0, 1rem, 0);
+        transition:
+            opacity 900ms var(--ease-architect),
+            transform 900ms var(--ease-architect);
+        transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    .js [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Hero görseli: açılışta çok hafif uzaklaşma (yalnızca transform, LCP'yi geciktirmez) */
+@keyframes gab-hero-settle {
+    from {
+        transform: scale(1.06);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.hero-image {
+    animation: gab-hero-settle 2400ms var(--ease-architect) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .js [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

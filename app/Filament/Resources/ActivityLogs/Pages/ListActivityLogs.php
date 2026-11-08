@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Filament\Resources\ActivityLogs\Pages;
+
+use App\Filament\Resources\ActivityLogs\ActivityLogResource;
+use Filament\Resources\Pages\ListRecords;
+
+/** Salt okunur liste */
+class ListActivityLogs extends ListRecords
+{
+    protected static string $resource = ActivityLogResource::class;
+}

@@ -1,0 +1,66 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# ---------------------------------------------------------------
+# GAB Architects — performans (PHASE 06, TD-048)
+# Apache / LiteSpeed (Turhost) uyumlu; modül yoksa kural atlanır.
+# ---------------------------------------------------------------
+
+# Metin tabanlı yanıtları sıkıştır (HTML, CSS, JS, SVG, XML, JSON)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json image/svg+xml font/ttf
+</IfModule>
+
+# Uzun süreli tarayıcı önbelleği yalnızca adı değişen (sürümlü) dosyalar için:
+# - /build/assets/*  : Vite, içerik değişince dosya adındaki hash'i değiştirir
+# - /media/{uuid}/*  : her yükleme yeni uuid klasörü alır
+# - Filament css/js  : ?v= sürüm parametresiyle yüklenir
+# HTML sayfaları önbelleğe alınmaz (Laravel kendi başlıklarını gönderir).
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|mjs|woff2?|ttf|webp|avif|jpe?g|png|gif|svg|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "^(favicon\.ico)$">
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+    Header always set X-Content-Type-Options "nosniff"
+    # Sunucu/PHP sürümü sızmasın (PHASE 07)
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+</IfModule>
+
+# Gizli/yapılandırma dosyalarına doğrudan erişim yok (.env, .git, composer.*, *.log vb. public'te olmamalı; yine de)
+<FilesMatch "^(\.env.*|\.git.*|composer\.(json|lock)|package(-lock)?\.json|.*\.(log|sql|sqlite|bak|sh|ini))$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_mime.c>
+    AddType image/avif .avif
+    AddType image/webp .webp
+    AddType font/woff2 .woff2
+</IfModule>
