@@ -21,7 +21,7 @@
 
 **0. Ön koşullar**
 1. cPanel → **Yedekleme**: mevcut WordPress sitesinin tam yedeği (dosyalar + veritabanı) indirilir ve bilgisayarda saklanır. Yedek alınmadan 4. adıma geçilmez.
-2. cPanel → **Select PHP Version / MultiPHP Manager**: `gabarchitects.com` için **PHP 8.4**. Eklentiler: `pdo_mysql`, `mbstring`, `intl`, `gd`, `zip`, `fileinfo`, `bcmath`, `exif`, `opcache`. `memory_limit` ≥ 256M, `upload_max_filesize`/`post_max_size` ≥ 32M, `max_execution_time` ≥ 300.
+2. cPanel → **Select PHP Version / MultiPHP Manager**: `gabarchitects.com` için **PHP 8.3** (proje 8.3'e sabit; Turhost varsayılanı 8.3.36). Eklentiler: `pdo_mysql`, `mbstring`, `intl`, `gd`, `zip`, `fileinfo`, `bcmath`, `exif`, `opcache`. `memory_limit` ≥ 256M, `upload_max_filesize`/`post_max_size` ≥ 32M, `max_execution_time` ≥ 300.
 3. cPanel → **SSL/TLS Status**: `gabarchitects.com` ve `www.gabarchitects.com` için AutoSSL / Let's Encrypt **aktif** (TD-057/TD-062: SSL olmadan panel girişi çalışmaz).
 4. cPanel → **MySQL Databases**: yeni veritabanı + kullanıcı, kullanıcıya **ALL PRIVILEGES**.
 5. cPanel → **Email Accounts**: `info@gabarchitects.com` (iletişim formu bildirimleri ve şifre sıfırlama bu hesaptan gider).
