@@ -27,3 +27,6 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /public/media
+# Turhost paketi (deploy/turhost/build.ps1) ve sunucudaki web kökü işaret dosyası (TD-063)
+/dist
+/.public_path

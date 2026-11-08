@@ -1,6 +1,6 @@
 # DEPLOYMENT GUIDE
 
-> Durum: **Taslak.** PHASE 08'de, Turhost paketi doğrulandıktan sonra tamamlanacak.
+> Durum: **PHASE 08 — Turhost adımları hazır** (alan adı: https://gabarchitects.com). Sunucuda doğrulandıkça güncellenecek.
 > Senaryo ayrıntıları: [HOSTING_REQUIREMENTS.md](HOSTING_REQUIREMENTS.md) §3.
 
 ## Temel kurallar
@@ -10,7 +10,50 @@
 4. Önce staging, sonra production.
 5. Her deploy öncesinde veritabanı yedeği alınır.
 
-## Taslak adımlar (Senaryo A — SSH var)
+## Turhost kurulumu — https://gabarchitects.com (Senaryo B, TD-063)
+
+**Sunucudaki yerleşim**
+```
+/home/KULLANICI/
+├── gab/            ← gab.zip (uygulama, vendor dahil) + .env   — web'den erişilemez
+└── public_html/    ← public_html.zip (index.php, .htaccess, build, filament, media)
+```
+
+**0. Ön koşullar**
+1. cPanel → **Yedekleme**: mevcut WordPress sitesinin tam yedeği (dosyalar + veritabanı) indirilir ve bilgisayarda saklanır. Yedek alınmadan 4. adıma geçilmez.
+2. cPanel → **Select PHP Version / MultiPHP Manager**: `gabarchitects.com` için **PHP 8.4**. Eklentiler: `pdo_mysql`, `mbstring`, `intl`, `gd`, `zip`, `fileinfo`, `bcmath`, `exif`, `opcache`. `memory_limit` ≥ 256M, `upload_max_filesize`/`post_max_size` ≥ 32M, `max_execution_time` ≥ 300.
+3. cPanel → **SSL/TLS Status**: `gabarchitects.com` ve `www.gabarchitects.com` için AutoSSL / Let's Encrypt **aktif** (TD-057/TD-062: SSL olmadan panel girişi çalışmaz).
+4. cPanel → **MySQL Databases**: yeni veritabanı + kullanıcı, kullanıcıya **ALL PRIVILEGES**.
+5. cPanel → **Email Accounts**: `info@gabarchitects.com` (iletişim formu bildirimleri ve şifre sıfırlama bu hesaptan gider).
+
+**1. Paket (lokal)**
+```
+powershell -ExecutionPolicy Bypass -File deploy\turhost\build.ps1
+```
+Çıktı `dist\turhost\`: `gab.zip`, `public_html.zip`, `gab\.env` (APP_KEY dolu). `.env` içindeki `<...>` alanları doldurulur (DB, e-posta şifresi, `ADMIN_PASSWORD`).
+
+**2. Yükleme (cPanel → File Manager)**
+1. `public_html` içindeki eski WordPress dosyaları `public_html_wp_yedek` klasörüne taşınır (silinmez).
+2. Ev dizininde `gab` klasörü → `gab.zip` yüklenir → **Extract**.
+3. `public_html` → `public_html.zip` yüklenir → **Extract**. (`.htaccess` gizli dosyadır: Settings → "Show Hidden Files".)
+4. `gab/.env` yüklenir (izin 600 önerilir). `gab/storage` ve `gab/bootstrap/cache` ile `public_html/media` yazılabilir (755).
+
+**3. Komutlar** — cPanel **Terminal** (varsa) ya da **Cron Jobs** ile bir kez (her komut çalışınca cron silinir):
+```
+cd ~/gab && php artisan migrate --force
+cd ~/gab && php artisan db:seed --force          # yalnızca boş veritabanında (veri aktarılmıyorsa)
+cd ~/gab && php artisan gab:sync-admin           # yönetici: .env → ADMIN_EMAIL / ADMIN_PASSWORD
+cd ~/gab && php artisan optimize && php artisan filament:optimize
+```
+Cron'da `php` yerine cPanel'in gösterdiği tam yol kullanılır (ör. `/opt/cpanel/ea-php84/root/usr/bin/php`). Kalıcı cron (scheduler): `* * * * * cd ~/gab && php artisan schedule:run >> /dev/null 2>&1`.
+
+**4. Veri (Railway → Turhost)** — Railway'deki gerçek içerik (Arkas Railport projesi, Konya ilanı, iletişim bilgileri, sayfalar) taşınır: Railway MySQL dökümü → phpMyAdmin **Import**; görsel türevleri → `public_html/media`, orijinaller → `gab/storage/app/private/media`. Ardından 3. adımdaki `migrate`, `gab:sync-admin`, `optimize` (seed **çalıştırılmaz**).
+
+**5. Kontrol**: aşağıdaki SEO ve Güvenlik listeleri + `http://www.gabarchitects.com` → `https://gabarchitects.com` (301), `/admin` girişi `info@gabarchitects.com`, iletişim formu e-postası.
+
+**Güncelleme (sonraki sürümler):** paket yeniden üretilir; `gab.zip` (`.env` ve `storage` korunur) ve `public_html.zip` (`media` korunur) üzerine açılır → `migrate --force` + `optimize`. Öncesinde veritabanı yedeği.
+
+## Genel adımlar (Senaryo A — SSH var)
 1. Lokal: `npm run build`, testler yeşil.
 2. Sunucu: kod güncellenir (git pull veya zip).
 3. `composer install --no-dev --optimize-autoloader`
@@ -40,7 +83,7 @@ Depodaki dosyalar: `Dockerfile`, `docker/entrypoint.sh`, `railway.json`, `.docke
 3. Web servisi → **Settings → Volumes → Add Volume**, mount path: `/data` (görseller, orijinaller, APP_KEY).
 4. Web servisi → **Variables** (Raw Editor):
    ```
-   APP_NAME="GAB Architects"
+   APP_NAME="GAB Gayrimenkul Proje Geliştirme"
    APP_ENV=production
    APP_DEBUG=false
    APP_URL=https://${{RAILWAY_PUBLIC_DOMAIN}}

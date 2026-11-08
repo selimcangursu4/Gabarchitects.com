@@ -54,6 +54,16 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // www → çıplak alan adı ve http → https yönlendirmesi (TD-062). Varsayılan: yalnızca production.
+    // Boş bırakılan "CANONICAL_REDIRECT=" de varsayılana düşer.
+    'canonical_redirect' => (static function (): bool {
+        $value = env('CANONICAL_REDIRECT');
+
+        return $value === null || $value === ''
+            ? env('APP_ENV') === 'production'
+            : filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    })(),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -1,8 +1,9 @@
 # PROJECT STATUS
 
 **Son güncelleme:** 2026-11-08
-**Aktif faz:** PHASE 07 – Güvenlik ve Test → **Kontrol Bekliyor (kullanıcı onayı)**
-**Sonraki faz:** PHASE 08 – Turhost Deployment
+**Aktif faz:** PHASE 08 – Turhost Deployment → **Devam ediyor** (kullanıcı 2026-11-08: "artık gerçek sunucuya ve domaine alacağım")
+**Gerçek adres:** https://gabarchitects.com (TD-062) · Kurulum: DEPLOYMENT_GUIDE → "Turhost kurulumu" (TD-063)
+**Yönetici (production):** `info@gabarchitects.com`; şifre yalnızca sunucudaki `.env` → `gab:sync-admin` (depoda yok)
 
 ## Kararlar
 - Marka **GAB Gayrimenkul Proje Geliştirme** (TD-061) · Admin **Filament 5** (`/admin`) · **Yalnızca Türkçe** · Varsayılan tema **Dark**
@@ -11,7 +12,7 @@
 
 ## Test / önizleme sitesi (Railway, TD-060)
 - https://gabarchitectscom-production.up.railway.app — panel: `/admin` (giriş bilgileri kullanıcının bilgisayarında `~/gab-railway-yonetici.txt`)
-- Production değildir; arama motorlarına kapalı; ÖRNEK ilanlar var. Kurulum: DEPLOYMENT_GUIDE → "Test / önizleme ortamı".
+- Production değildir; arama motorlarına kapalı. Test içerikleri silindi (2026-11-08): yalnızca Arkas Railport Uygulama Projemiz + Konya'da Fırsat Tarla; ÖRNEK ilan yok. Kurulum: DEPLOYMENT_GUIDE → "Test / önizleme ortamı".
 - Otomatik dağıtım: serviste GitHub tetikleyicisi yoktu (ilk gönderimler bu yüzden dağıtılmadı); 2026-11-08'de `main` için tetikleyici eklendi → `main`'e her gönderim Railway'de otomatik dağıtılır.
 
 ## Lokal çalıştırma

@@ -1,10 +1,15 @@
 <?php
 
+use App\Enums\Role;
 use App\Models\Media;
 use App\Models\Page;
 use App\Models\Property;
+use App\Models\User;
 use App\Services\MediaService;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 /*
 | Lokal tasarım için üretilen örnek ilanları ve görsellerini kalıcı olarak siler.
@@ -59,3 +64,50 @@ Artisan::command('gab:seed-samples-if-missing', function () {
 
     $this->call('db:seed', ['--class' => 'SamplePropertySeeder', '--force' => true]);
 })->purpose('Test sunucusunda ÖRNEK ilan yoksa yükler (idempotent)');
+
+/*
+| Yönetici hesabını .env'deki ADMIN_EMAIL / ADMIN_PASSWORD'e taşır (şifre kodda tutulmaz).
+| - Bu e-postayla bir hesap zaten varsa hiçbir şey yapmaz (panelden değiştirilen şifre ezilmez).
+| - Yoksa ilk Super Admin hesabının e-postası ve şifresi bu değerlerle güncellenir.
+| - Hiç Super Admin yoksa AdminUserSeeder çalışır.
+| Taşınan veritabanında (Railway → Turhost) ve her konteyner açılışında güvenle çağrılabilir.
+*/
+Artisan::command('gab:sync-admin', function () {
+    $email = config('gab.admin.email');
+    $password = config('gab.admin.password');
+
+    if (! $email || ! $password) {
+        $this->info('ADMIN_EMAIL / ADMIN_PASSWORD tanımlı değil; yönetici hesabına dokunulmadı.');
+
+        return;
+    }
+
+    if (User::withTrashed()->where('email', $email)->exists()) {
+        $this->info("Yönetici hesabı zaten güncel: {$email}");
+
+        return;
+    }
+
+    $admin = User::role(Role::SuperAdmin->value)->orderBy('id')->first();
+
+    if (! $admin) {
+        $this->call('db:seed', ['--class' => 'AdminUserSeeder', '--force' => true]);
+
+        return;
+    }
+
+    $admin->forceFill([
+        'email' => $email,
+        'password' => $password,
+        'email_verified_at' => now(),
+    ])->save();
+
+    // Eski oturumlar ve "beni hatırla" belirteçleri geçersiz olsun
+    $admin->setRememberToken(Str::random(60));
+    $admin->save();
+    if (Schema::hasTable('sessions')) {
+        DB::table('sessions')->where('user_id', $admin->id)->delete();
+    }
+
+    $this->info("Yönetici hesabı güncellendi: {$email}");
+})->purpose('Yönetici e-posta/şifresini .env değerlerine taşır (idempotent)');

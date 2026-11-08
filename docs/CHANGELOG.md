@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [Canlıya hazırlık — gabarchitects.com] — 2026-11-08 (PHASE 08 başlangıcı)
+- **Test içerikleri silindi** (kullanıcı talebi): yalnızca "Arkas Railport Uygulama Projemiz" projesi ve "Konya'da Fırsat Tarla" ilanı kalır. Migration `2026_11_09_020000_prune_test_projects_and_properties`: iki kayıt da yoksa hiçbir şey silmez (yeni kurulum/lokal güvenli); silinenlerin başka yerde kullanılmayan görselleri dosyalarıyla kaldırılır; ana sayfa "yaklaşım" görseli kalan projeye bağlanır. Railway'de ÖRNEK ilan yeniden yüklenmez (`gab:seed-samples-if-missing` entrypoint'ten çıkarıldı).
+- **Yönetici hesabı `.env`'den:** `gab:sync-admin` → ilk Super Admin'in e-posta/şifresini `ADMIN_EMAIL`/`ADMIN_PASSWORD`'e taşır (bir kez; panelden değiştirilen şifre ezilmez; eski oturumlar kapanır). Şifre depoda yok.
+- **Alan adı (TD-062):** `https://gabarchitects.com`; www ve http → 301 (`CanonicalHost`).
+- **Turhost paketi (TD-063):** `deploy/turhost/build.ps1` → `gab.zip` + `public_html.zip` + APP_KEY'li `.env`; `deploy/turhost/index.php`, `env.production.example`; `.public_path` desteği. DEPLOYMENT_GUIDE Turhost adımları.
+- Testler: `GoLiveTest` (8) → 146/146.
+
 ## [Kullanıcı talepleri] — 2026-11-08
 - Hero alt metni: **"Mimarlık | Gayrimenkul Proje Geliştirme | İnşaat"** (migration yalnızca önceki varsayılan metinleri değiştirir).
 - İlan detayı: "WhatsApp'tan yazın" altında **WhatsApp numarasını arayan ikinci "Hemen arayın"**; sabit hat butonu korunur (her biri numarasıyla). Mobil alt çubuk: WhatsApp · Cep · Sabit. İki numara aynıysa tek arama butonu. 138 test.

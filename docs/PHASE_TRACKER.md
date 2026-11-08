@@ -12,7 +12,7 @@ Durumlar: Bekliyor · Devam Ediyor · Kontrol Bekliyor · Tamamlandı · Hata Va
 | PHASE 05 | Çoklu Dil | **İptal** | — | Yalnızca Türkçe |
 | PHASE 06 | SEO ve Performans | Tamamlandı | %100 | Kullanıcı "devam et" ile onayladı (2026-11-08). Lighthouse: performans 90–99, erişilebilirlik 100, en iyi uygulamalar 100, SEO 100 (production modu) |
 | PHASE 07 | Güvenlik ve Test | **Kontrol Bekliyor** | %100 | 124/124 test; mobil tarayıcı testi 16/16; bağımlılık denetimi temiz |
-| PHASE 08 | Turhost Deployment | Bekliyor | %0 | |
+| PHASE 08 | Turhost Deployment | **Devam ediyor** | %30 | Alan adı gabarchitects.com (TD-062), paket betiği + kurulum rehberi (TD-063), test içerikleri silindi. Bekleyen: Turhost cPanel'de kurulum, WordPress yedeği, SSL, veri aktarımı, canlı smoke test |
 | PHASE 09 | Son Kontrol | Bekliyor | %0 | |
 
 ## PHASE 07 — brief §10 ve PHASE 07 listesi karşılığı

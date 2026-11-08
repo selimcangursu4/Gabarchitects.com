@@ -36,7 +36,8 @@ ln -sfn "${DATA_DIR}/private" storage/app/private
 
 php artisan migrate --force
 php artisan gab:seed-if-empty
-php artisan gab:seed-samples-if-missing
+# Örnek ilanlar artık yüklenmez (kullanıcı talebi 2026-11-08: test içerikleri silindi, gerçek içerik kaldı)
+php artisan gab:sync-admin
 php artisan optimize
 php artisan filament:optimize || true
 
