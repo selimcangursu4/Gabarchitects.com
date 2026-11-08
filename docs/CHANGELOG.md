@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [Kullanıcı talebi] — 2026-11-09
+- İşlem tipi **Kat Karşılığı** eklendi (Satılık / Kiralık / Kat Karşılığı): panel seçimi + liste rozeti/filtresi, site filtresi (3 seçenek), `/kat-karsiligi` sayfası, portföy sekmesi, sitemap. Veritabanı değişikliği yok (`listing_type` = `exchange`). 148/148 test (PHP 8.3 + 8.4). Canlıya alındı (dosya yükleme + `optimize` cron ile) ve doğrulandı.
+
 ## [YAYIN — https://gabarchitects.com] — 2026-11-09 (PHASE 08)
 - Turhost'a kurulum cPanel API + tek seferlik cron betikleriyle (SSH yok): tam cPanel yedeği (sunucu + lokal indirme, doğrulandı) → yeni veritabanı `gabarchi_gabsite` → `~/gab` + `.env` → Railway dökümü + görseller aktarıldı → migrate (değişiklik yok) → `gab:sync-admin` → optimize → WordPress dosyaları `~/public_html_wp_yedek`'e taşındı → yeni web kökü.
 - PHP 8.3 uyumu: composer platform 8.3.0, Symfony 7.4 LTS (Turhost'ta seçici yok; alt-php84'te gd/mbstring yok). Testler 8.3 ve 8.4'te 146/146.
