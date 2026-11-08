@@ -38,6 +38,7 @@ RUN rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_wo
       echo '    AllowOverride All'; \
       echo '    Require all granted'; \
       echo '</Directory>'; \
+      echo 'ServerName localhost'; \
       echo 'ServerTokens Prod'; \
       echo 'ServerSignature Off'; \
     } > /etc/apache2/conf-available/gab.conf \

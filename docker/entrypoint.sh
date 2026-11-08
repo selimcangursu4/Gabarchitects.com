@@ -36,6 +36,7 @@ ln -sfn "${DATA_DIR}/private" storage/app/private
 
 php artisan migrate --force
 php artisan gab:seed-if-empty
+php artisan gab:seed-samples-if-missing
 php artisan optimize
 php artisan filament:optimize || true
 

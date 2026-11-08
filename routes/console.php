@@ -39,3 +39,23 @@ Artisan::command('gab:seed-if-empty', function () {
     $this->info('Boş veritabanı: ilk içerik yükleniyor…');
     $this->call('db:seed', ['--force' => true]);
 })->purpose('Veritabanı boşsa ilk içeriği yükler (idempotent)');
+
+/*
+| Test/önizleme sunucusu (GAB_SEED_SAMPLES=true): ÖRNEK ilan hiç yoksa yükler; varsa dokunmaz.
+| Kapalıyken hiçbir şey yapmaz. Silmek için: gab:purge-samples (silindikten sonra bayrak kapatılmalı).
+*/
+Artisan::command('gab:seed-samples-if-missing', function () {
+    if (! config('gab.seed_samples')) {
+        $this->info('GAB_SEED_SAMPLES kapalı; örnek ilan yüklenmedi.');
+
+        return;
+    }
+
+    if (Property::withTrashed()->where('is_sample', true)->exists()) {
+        $this->info('Örnek ilanlar zaten var.');
+
+        return;
+    }
+
+    $this->call('db:seed', ['--class' => 'SamplePropertySeeder', '--force' => true]);
+})->purpose('Test sunucusunda ÖRNEK ilan yoksa yükler (idempotent)');
