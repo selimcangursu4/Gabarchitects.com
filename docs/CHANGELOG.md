@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [YAYIN — https://gabarchitects.com] — 2026-11-09 (PHASE 08)
+- Turhost'a kurulum cPanel API + tek seferlik cron betikleriyle (SSH yok): tam cPanel yedeği (sunucu + lokal indirme, doğrulandı) → yeni veritabanı `gabarchi_gabsite` → `~/gab` + `.env` → Railway dökümü + görseller aktarıldı → migrate (değişiklik yok) → `gab:sync-admin` → optimize → WordPress dosyaları `~/public_html_wp_yedek`'e taşındı → yeni web kökü.
+- PHP 8.3 uyumu: composer platform 8.3.0, Symfony 7.4 LTS (Turhost'ta seçici yok; alt-php84'te gd/mbstring yok). Testler 8.3 ve 8.4'te 146/146.
+- Canlı kontrol: 10 adres 200/404, www ve http → https://gabarchitects.com (301), kanonik/sitemap/robots doğru alan adıyla, `index, follow`, HSTS + CSP + güvenli çerez, Brotli, `build` 1 yıl immutable, AVIF/WebP görseller, `.env` 403, eski WordPress adresleri 404, yönetici girişi sunucuda doğrulandı.
+- Railway projesi silindi; geçici MySQL TCP proxy'si ve cPanel uzak MySQL izni geri alındı; kurulum dosyaları/cron'lar temizlendi.
+- Olay: yedek indirme için açılan şifre korumalı geçici klasörün koruması kaldırıldıktan sonra silme komutu (`killdir`) desteklenmediği için klasör birkaç saniye korumasız kaldı (rastgele 32 karakterlik ad); hemen silindi. Erişim kayıtları API'den okunamadığı için indirilmediği doğrulanamadı.
+
 ## [Railway kaldırıldı] — 2026-11-09
 - Kullanıcı kararı: yalnızca Turhost. `Dockerfile`, `docker/`, `.dockerignore`, `railway.json`, `gab:seed-samples-if-missing`, `GAB_SEED_SAMPLES` silindi; DEPLOYMENT_GUIDE'dan Railway bölümü çıkarıldı (TD-060 → Kaldırıldı). ÖRNEK ilanlar production'da hiçbir yoldan oluşmaz (test güncellendi).
 

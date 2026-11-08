@@ -10,8 +10,13 @@
 - Gayrimenkul portföyü sitenin merkezinde · Turhost analizi ertelendi
 - İlan detayında form yok: WhatsApp + Ara butonları (TD-047)
 
-## Barındırma
-- **Yalnızca Turhost** (kullanıcı kararı 2026-11-09: "projenin Railway ile hiçbir bağlantısı kalmayacak"). Railway test ortamı (TD-060) kaldırıldı: Docker/Railway dosyaları depodan silindi. Gerçek içerik (1 proje + 1 ilan + ayarlar) Turhost'a bir kez aktarılacak, ardından Railway projesi silinecek.
+## Barındırma — YAYINDA: https://gabarchitects.com (2026-11-09)
+- **Yalnızca Turhost** (kullanıcı kararı 2026-11-09: "projenin Railway ile hiçbir bağlantısı kalmayacak"). Railway projesi (uygulama + MySQL + diskler) **silindi**; Docker/Railway dosyaları depodan kaldırıldı (TD-060 → Kaldırıldı).
+- Turhost "WP Hosting Giriş", cPanel kullanıcısı `gabarchi`, LiteSpeed + CloudLinux, PHP 8.3.36 (web + cron), MySQL 8.0. **SSH yok** → sunucu komutları cPanel Cron ile tek seferlik betikle (TD-063).
+- Yerleşim: `~/gab` (uygulama, `.env` 600), `~/public_html` (web kökü), `~/public_html_wp_yedek` (eski WordPress dosyaları, web dışı). Veritabanı `gabarchi_gabsite` (WordPress'in `gabarchi_gab649` veritabanına dokunulmadı).
+- Eski sitenin tam cPanel yedeği: sunucuda `~/backup-11.9.2026_00-10-34_gabarchi.tar.gz` + kullanıcının bilgisayarında `C:\Users\selim\Gabarchitects-WordPress-yedek-2026-11-09.tar.gz` (1 GB, açılarak doğrulandı).
+- Railway'deki gerçek içerik aktarıldı: 1 proje, 1 ilan, 19 görsel (türevler + orijinaller en büyük WebP türevinden yeniden oluşturuldu), sayfalar, ayarlar, 2 iletişim mesajı.
+- **Açık:** `.env` → `MAIL_PASSWORD` boş (info@ şifresi kullanıcıda) → iletişim formu e-posta bildirimi gitmez, mesajlar panelde (Web Formları). Kalıcı cron yok (uygulamada zamanlanmış görev yok).
 
 ## Lokal çalıştırma
 ```bash
