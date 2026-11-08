@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [Kullanıcı talepleri] — 2026-11-08
+- Ana sayfa hero filtresi: fiyat, metrekare ve oda sayısı "Daha fazla seçenek" düğmesinin arkasında (aç/kapa, `aria-expanded`). JS kapalıyken alanlar açık; ilk boyamada gizleme CSS ile (sayfa kayması yok). Bu alanlardan biri doluysa açık başlar. Portföy sayfası yan paneli değişmedi.
+- BUG-030: panel listelerinde görsel sütunu boştu → `Media::absoluteUrl()`.
+- Testler: 130/130; tarayıcı testi (masaüstü + mobil + JS kapalı) 19/19.
+- Not: masaüstü ana sayfada önceden var olan, web fontlarının geç yüklenmesinden kaynaklı CLS 0,08 ölçüldü (eşik 0,1 altında; bu değişiklikten bağımsız) — font önyükleme ile iyileştirilebilir.
+
 ## [Railway test ortamı] — 2026-11-08 (TD-060)
 - Yayında: https://gabarchitectscom-production.up.railway.app (arama motorlarına kapalı, ÖRNEK ilanlı).
 - Docker (PHP 8.4 + Apache + .htaccess), Railway MySQL 8, `/data` kalıcı disk; APP_KEY diskte üretilir.

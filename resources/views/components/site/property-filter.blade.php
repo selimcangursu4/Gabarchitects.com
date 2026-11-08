@@ -12,6 +12,8 @@
     $hero = $variant === 'hero';
     $field = 'h-12 w-full border border-line bg-bg px-3.5 text-[0.9375rem] text-fg outline-none transition-colors focus:border-fg';
     $label = 'mb-2 block text-[0.75rem] font-medium uppercase tracking-[0.12em] text-subtle';
+    // Hero: fiyat / m² / oda "Daha fazla seçenek" arkasında (kullanıcı talebi). Bu alanlardan biri doluysa açık başlar.
+    $advancedActive = $rooms !== [] || collect(['fiyat_min', 'fiyat_max', 'm2_min', 'm2_max'])->contains(fn ($k) => filled($filters[$k] ?? null));
 @endphp
 
 {{--
@@ -26,6 +28,7 @@
           il: @js($filters['il'] ?? ''),
           ilce: @js($filters['ilce'] ?? ''),
           tip: @js($filters['tip'] ?? ''),
+          more: @js($advancedActive),
           districts: @js($locations['districts']),
           noRoomTypes: @js(config('real_estate.types_without_rooms')),
           actions: @js(collect($listingTypes)->mapWithKeys(fn ($t) => [$t['slug'] => url('/'.$t['slug'])])),
@@ -92,6 +95,35 @@
             </select>
         </div>
 
+        @if ($hero)
+            {{-- Gelişmiş seçenekler düğmesi: yalnızca JS açıkken görünür (JS kapalıyken alanlar zaten açık) --}}
+            <div class="sm:col-span-2">
+                <button type="button" @click="more = !more"
+                        aria-controls="f-more-hero" aria-expanded="{{ $advancedActive ? 'true' : 'false' }}" :aria-expanded="more.toString()"
+                        data-more-toggle
+                        class="hidden h-11 w-full items-center justify-between border border-dashed border-line px-4 text-[0.8125rem] font-medium uppercase tracking-[0.12em] text-muted transition-colors hover:border-fg hover:text-fg [.js_&]:flex">
+                    <span x-text="more ? 'Daha az seçenek' : 'Daha fazla seçenek'">{{ $advancedActive ? 'Daha az seçenek' : 'Daha fazla seçenek' }}</span>
+                    <span class="flex items-center gap-2 normal-case tracking-normal text-subtle">
+                        <span x-show="!more" class="text-[0.75rem]">Fiyat · m² · Oda</span>
+                        <svg class="size-3.5 transition-transform duration-300" :class="more && 'rotate-180'" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5" /></svg>
+                    </span>
+                </button>
+            </div>
+        @endif
+
+        {{--
+            Hero'da açılır bölüm. data-cloak: .js sınıfı (head'deki satır içi script) varken ilk boyamada gizli →
+            sayfa kayması yok; Alpine başlayınca kaldırılır ve x-show devralır. JS kapalıyken alanlar görünür.
+            Panel (yan filtre) varyantında "contents": alanlar doğrudan ana ızgaraya akar, her zaman açık.
+        --}}
+        <div id="f-more-{{ $variant }}"
+             @if ($hero)
+                 x-ref="more" x-show="more"
+                 x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+                 @unless ($advancedActive) data-cloak @endunless
+             @endif
+             @class(['grid gap-4 sm:col-span-2 sm:grid-cols-2' => $hero, 'contents' => ! $hero])>
+
         {{-- Fiyat --}}
         <fieldset @class(['sm:col-span-2' => $hero])>
             <legend class="{{ $label }}">Fiyat (₺)</legend>
@@ -122,6 +154,7 @@
                 @endforeach
             </div>
         </fieldset>
+        </div>{{-- /#f-more --}}
 
         @unless ($hero)
             <div>

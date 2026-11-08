@@ -80,6 +80,8 @@ Alpine.data('propertyFilter', (config) => ({
     init() {
         this.ilce = this.$refs.district.value;
         this.renderDistricts();
+        // Hero "Daha fazla seçenek": ilk boyamadaki CSS gizlemesini kaldır, görünürlüğü x-show="more" yönetsin
+        this.$refs.more?.removeAttribute('data-cloak');
     },
 
     /** İlçe listesini seçilen ile göre yeniden kurar (JS kapalıyken gruplu liste kalır). */

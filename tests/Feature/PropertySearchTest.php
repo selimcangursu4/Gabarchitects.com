@@ -115,6 +115,32 @@ class PropertySearchTest extends TestCase
         $this->get('/')->assertOk()->assertDontSee('role="search"', false);
     }
 
+    /** Kullanıcı talebi: hero'da fiyat / m² / oda "Daha fazla seçenek" arkasında; yan panelde hep açık */
+    public function test_hero_hides_advanced_filters_behind_more_options(): void
+    {
+        $html = $this->get('/')->getContent();
+
+        $this->assertMatchesRegularExpression('/<button[^>]*aria-controls="f-more-hero"[^>]*aria-expanded="false"/s', $html);
+        $this->assertStringContainsString('Daha fazla seçenek', $html);
+
+        // Gelişmiş alanlar açılır bölümün içinde ve ilk boyamada gizli (data-cloak)
+        preg_match('/<div id="f-more-hero"[^>]*>/s', $html, $open);
+        $this->assertNotEmpty($open);
+        $this->assertStringContainsString('data-cloak', $open[0]);
+        $section = substr($html, strpos($html, 'id="f-more-hero"'));
+        foreach (['name="fiyat_min"', 'name="fiyat_max"', 'name="m2_min"', 'name="m2_max"', 'name="oda[]"'] as $field) {
+            $this->assertStringContainsString($field, $section, "{$field} açılır bölümde olmalı");
+        }
+        // Temel alanlar dışarıda kalır
+        $this->assertLessThan(strpos($html, 'id="f-more-hero"'), strpos($html, 'name="il"'));
+
+        // Portföy yan paneli: düğme yok, alanlar gizlenmez
+        $panel = $this->get('/portfoy')->getContent();
+        $this->assertStringNotContainsString('data-more-toggle', $panel);
+        $this->assertStringNotContainsString('data-cloak', $panel);
+        $this->assertStringContainsString('name="fiyat_min"', $panel);
+    }
+
     public function test_price_hidden_listings_show_contact_text(): void
     {
         $listing = $this->listing(['title' => 'Fiyatsız İlan', 'show_price' => false]);

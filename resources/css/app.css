@@ -161,6 +161,12 @@
     }
 }
 
+/* JS açıkken ilk boyamada gizli (sayfa kayması yok); Alpine başlayınca data-cloak kaldırılır, x-show devralır.
+   JS kapalıyken .js sınıfı olmadığından içerik görünür kalır. */
+.js [data-cloak] {
+    display: none !important;
+}
+
 /* Çerez bildirimi, ilan sayfasındaki mobil WhatsApp/Ara çubuğunun üstünde durur (butonları örtmez) */
 @media (width < 64rem) {
     body:has([data-bottom-bar]) .cookie-notice {
