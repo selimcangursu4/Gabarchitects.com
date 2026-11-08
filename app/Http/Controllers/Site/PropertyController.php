@@ -50,6 +50,9 @@ class PropertyController extends Controller
             'reference' => $reference,
             'contact' => [
                 'whatsapp' => Phone::whatsappHref(settings('contact.whatsapp'), $message),
+                // Kullanıcı talebi (2026-11-08): WhatsApp numarasını doğrudan arayan ikinci "Hemen arayın" butonu
+                'mobile_tel' => Phone::telHref(settings('contact.whatsapp')),
+                'mobile' => settings('contact.whatsapp'),
                 'tel' => Phone::telHref(settings('contact.phone')),
                 'phone' => settings('contact.phone'),
             ],

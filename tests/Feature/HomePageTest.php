@@ -209,6 +209,28 @@ class HomePageTest extends TestCase
         $this->get('/portfoy')->assertSee('Portföylerimiz')->assertDontSee('Portföyümüz');
     }
 
+    /** Kullanıcı talebi: hero alt metni "Mimarlık | Gayrimenkul Proje Geliştirme | İnşaat" (yeni kurulum + var olan veritabanı) */
+    public function test_hero_subtitle(): void
+    {
+        $this->get('/')->assertSee('Mimarlık | Gayrimenkul Proje Geliştirme | İnşaat');
+
+        // Eski metinli veritabanı migration ile güncellenir
+        $home = Page::where('key', 'home')->firstOrFail();
+        $content = $home->content;
+        $content['hero']['text'] = 'Gayrimenkul proje geliştirme ve inşaat çözümleri.';
+        $home->update(['content' => $content]);
+
+        (require database_path('migrations/2026_11_09_010000_update_home_hero_subtitle.php'))->up();
+        $this->get('/')->assertSee('Mimarlık | Gayrimenkul Proje Geliştirme | İnşaat')
+            ->assertDontSee('Gayrimenkul proje geliştirme ve inşaat çözümleri.');
+
+        // Panelden özel metin girilmişse migration dokunmaz
+        $content['hero']['text'] = 'Panelden özel metin';
+        $home->update(['content' => $content]);
+        (require database_path('migrations/2026_11_09_010000_update_home_hero_subtitle.php'))->up();
+        $this->assertSame('Panelden özel metin', $home->fresh()->field('hero.text'));
+    }
+
     public function test_unknown_page_returns_branded_404(): void
     {
         $this->get('/olmayan-sayfa')

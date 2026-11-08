@@ -80,10 +80,11 @@ class PropertyContactTest extends TestCase
         $this->assertStringNotContainsString('Bizimle iletişime geçin', $html);
         $this->assertStringNotContainsString('wa.me', $html);
         $this->assertStringNotContainsString('href="tel:', $html);
-        // Masaüstü kartı + mobil alt çubuk: her ikisinde de 2 pasif buton
+        // Masaüstü kartı + mobil alt çubuk: her ikisinde de 3 pasif buton (WhatsApp, cep arama, sabit arama)
         $this->assertSame(2, substr_count($html, 'data-contact="whatsapp"'));
+        $this->assertSame(2, substr_count($html, 'data-contact="mobile"'));
         $this->assertSame(2, substr_count($html, 'data-contact="phone"'));
-        $this->assertSame(4, substr_count($html, 'aria-disabled="true"'));
+        $this->assertSame(6, substr_count($html, 'aria-disabled="true"'));
     }
 
     public function test_only_missing_button_is_disabled(): void
@@ -93,7 +94,38 @@ class PropertyContactTest extends TestCase
         $html = $this->get($this->property->url())->getContent();
 
         $this->assertStringContainsString('href="tel:+902125550000"', $html);
-        $this->assertSame(2, substr_count($html, 'aria-disabled="true"'));   // yalnızca WhatsApp (masaüstü + mobil)
+        $this->assertSame(4, substr_count($html, 'aria-disabled="true"'));   // WhatsApp + cep arama (masaüstü + mobil)
+    }
+
+    /** Kullanıcı talebi (2026-11-08): WhatsApp'ın altında WhatsApp numarasını arayan ikinci "Hemen arayın"; sabit hat da kalır */
+    public function test_second_call_button_dials_whatsapp_number(): void
+    {
+        $this->setNumbers('0212 555 00 00', '0532 000 00 00');
+
+        $html = $this->get($this->property->url())->getContent();
+
+        $this->assertSame(2, substr_count($html, 'href="tel:+905320000000"'));   // cep: masaüstü + mobil çubuk
+        $this->assertSame(2, substr_count($html, 'href="tel:+902125550000"'));   // sabit: masaüstü + mobil çubuk
+        $this->assertSame(0, substr_count($html, 'aria-disabled="true"'));
+
+        // Sıra: WhatsApp → cep arama → sabit arama; numaralar görünür
+        $wa = strpos($html, 'data-contact="whatsapp"');
+        $mobile = strpos($html, 'data-contact="mobile"');
+        $phone = strpos($html, 'data-contact="phone"');
+        $this->assertTrue($wa < $mobile && $mobile < $phone);
+        $this->assertSame(2, substr_count($html, 'Hemen arayın'));
+        $this->assertStringContainsString('0532 000 00 00', $html);
+        $this->assertStringContainsString('0212 555 00 00', $html);
+    }
+
+    public function test_same_number_shows_single_call_button(): void
+    {
+        $this->setNumbers('0532 000 00 00', '0532 000 00 00');
+
+        $html = $this->get($this->property->url())->getContent();
+
+        $this->assertSame(1, substr_count($html, 'Hemen arayın'));
+        $this->assertSame(2, substr_count($html, 'href="tel:+905320000000"'));   // masaüstü + mobil, tekrar yok
     }
 
     public function test_dashboard_warns_when_numbers_missing(): void

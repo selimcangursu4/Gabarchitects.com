@@ -35,7 +35,7 @@ return [
         'hero' => [
             'eyebrow' => null,   // kullanıcı talebiyle kaldırıldı (2026-11-08)
             'title' => 'Arsadan anahtar teslime.',
-            'text' => 'Gayrimenkul proje geliştirme ve inşaat çözümleri.',
+            'text' => 'Mimarlık | Gayrimenkul Proje Geliştirme | İnşaat',   // kullanıcı talebi (2026-11-08)
             // Kullanıcı talebi (2026-11-08): hero görseli Boğaziçi sahili (5120×3413, çözünürlük düşürülmez)
             'image' => 'bogazici-sahil',
             'image_caption' => 'Boğaziçi',

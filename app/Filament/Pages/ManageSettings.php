@@ -102,7 +102,7 @@ class ManageSettings extends Page implements HasSchemas
                         }),
                     TextInput::make('contact.whatsapp')->label('WhatsApp numarası')->tel()->maxLength(40)
                         ->placeholder('0532 000 00 00')
-                        ->helperText('İlan sayfalarındaki "WhatsApp\'tan yazın" butonu bu numaraya, ilan bilgisiyle hazır bir mesaj açar. Boşsa buton soluk ve tıklanamaz görünür.')
+                        ->helperText('İlan sayfalarında "WhatsApp\'tan yazın" butonu bu numaraya ilan bilgisiyle hazır bir mesaj açar; altındaki ilk "Hemen arayın" butonu da bu numarayı arar. Boşsa bu iki buton soluk ve tıklanamaz görünür.')
                         ->rule(fn () => function (string $attribute, $value, $fail) {
                             if (filled($value) && ! Phone::international($value)) {
                                 $fail('Geçerli bir cep telefonu numarası girin (ör. 0532 000 00 00).');

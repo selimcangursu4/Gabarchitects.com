@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## [Kullanıcı talepleri] — 2026-11-08
+- Hero alt metni: **"Mimarlık | Gayrimenkul Proje Geliştirme | İnşaat"** (migration yalnızca önceki varsayılan metinleri değiştirir).
+- İlan detayı: "WhatsApp'tan yazın" altında **WhatsApp numarasını arayan ikinci "Hemen arayın"**; sabit hat butonu korunur (her biri numarasıyla). Mobil alt çubuk: WhatsApp · Cep · Sabit. İki numara aynıysa tek arama butonu. 138 test.
 - **Hero görseli: Boğaziçi sahili (5120×3413), çözünürlük düşürülmez.** Türev genişlikleri `[480, 960, 1600, 2400, 3200, 3840, 5120]` (kaynaktan büyük üretilmez); kaynak genişliğindeki türev yeniden örneklenmeden kodlanır; büyük görseller için bellek sınırı piksel sayısına göre yükseltilir (5120 px: tepe ~214 MB) ve süre sınırı 300 sn (AVIF ~40 sn). Tarayıcı srcset ile ekrana uygun türevi seçer (telefon 1600, Retina 3200, 4K/5K tam çözünürlük). Migration `2026_11_09_000000_set_home_hero_bosphorus_shore_image`. Test: 5120 türevi gerçek 5120×3413 ve srcset'te.
 - Hero üst etiketi ("Mimarlık · Proje Geliştirme · İnşaat") kaldırıldı (panelden girilirse görünür); hero metninden "Entegre" çıkarıldı; "Portföyümüz" → **"Portföylerimiz"** (menü, ana sayfa bölümü, portföy sayfası başlık/breadcrumb). Var olan veritabanları: `2026_11_08_235000_update_home_hero_texts_and_portfolio_label` (yalnızca tam eşleşen eski metinler). 135 test.
 - **Hero görseli:** Boğaziçi yalıları (kullanıcı sağladı, 1080×1350) + hafif genel karartma (`#111111` %30), dikey görsel için `object-position: 50% 68%`. Yeni kurulumlar seed'den, var olanlar `2026_11_08_230000_set_home_hero_bosphorus_image` migration'ından alır (idempotent). Test eklendi; 134 test.
