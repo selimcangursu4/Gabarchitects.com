@@ -26,7 +26,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Apache: document root = public/, .htaccess etkin, sürüm bilgisi gizli
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN a2enmod rewrite headers deflate expires \
+# mod_php yalnızca prefork MPM ile çalışır; Railway'de "More than one MPM loaded" (AH00534) hatası görüldü →
+# event/worker kesin kapatılır (entrypoint'te de kontrol edilir)
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* \
+ && a2enmod mpm_prefork rewrite headers deflate expires \
  && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
  && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
  && { \
