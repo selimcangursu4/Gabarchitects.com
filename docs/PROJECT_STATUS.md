@@ -12,7 +12,7 @@
 ## Test / önizleme sitesi (Railway, TD-060)
 - https://gabarchitectscom-production.up.railway.app — panel: `/admin` (giriş bilgileri kullanıcının bilgisayarında `~/gab-railway-yonetici.txt`)
 - Production değildir; arama motorlarına kapalı; ÖRNEK ilanlar var. Kurulum: DEPLOYMENT_GUIDE → "Test / önizleme ortamı".
-- Not: GitHub'a gönderim otomatik dağıtımı tetiklemedi; dağıtımlar API/panelden "Deploy" ile başlatıldı.
+- Otomatik dağıtım: serviste GitHub tetikleyicisi yoktu (ilk gönderimler bu yüzden dağıtılmadı); 2026-11-08'de `main` için tetikleyici eklendi → `main`'e her gönderim Railway'de otomatik dağıtılır.
 
 ## Lokal çalıştırma
 ```bash
