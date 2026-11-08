@@ -34,6 +34,7 @@ Route::middleware('module:real_estate')->group(function () {
     Route::get('/portfoy', [PropertyController::class, 'index'])->name('properties.index');
     Route::get('/satilik', [PropertyController::class, 'index'])->defaults('listingType', 'satilik')->name('properties.sale');
     Route::get('/kiralik', [PropertyController::class, 'index'])->defaults('listingType', 'kiralik')->name('properties.rent');
+    Route::get('/kat-karsiligi', [PropertyController::class, 'index'])->defaults('listingType', 'kat-karsiligi')->name('properties.exchange');
     Route::get('/portfoy/{property}', [PropertyController::class, 'show'])->name('properties.show');
 });
 

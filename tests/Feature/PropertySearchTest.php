@@ -41,6 +41,25 @@ class PropertySearchTest extends TestCase
         $this->get('/portfoy')->assertOk()->assertSee($sale->title)->assertSee($rent->title);
     }
 
+    /** Kullanıcı talebi 2026-11-09: üçüncü işlem tipi "Kat Karşılığı" */
+    public function test_floor_exchange_listing_type(): void
+    {
+        $sale = $this->listing(['title' => 'Satılık Arsa Test']);
+        $exchange = $this->listing(['title' => 'Kat Karşılığı Arsa Test', 'listing_type' => 'exchange', 'property_type' => 'arsa']);
+
+        $this->get('/kat-karsiligi')->assertOk()->assertSee($exchange->title)->assertDontSee($sale->title);
+        $this->get('/portfoy?islem=kat-karsiligi')->assertOk()->assertSee($exchange->title)->assertDontSee($sale->title);
+        $this->get('/satilik')->assertDontSee($exchange->title);
+
+        // Filtrede üç seçenek, liste sekmesi, ilan detayı ve sitemap
+        $this->get('/')->assertSeeInOrder(['value="satilik"', 'value="kiralik"', 'value="kat-karsiligi"'], false);
+        $this->get('/portfoy')->assertSee('href="'.route('properties.exchange').'"', false);
+        $this->get($exchange->url())->assertOk()->assertSee('Kat Karşılığı')
+            ->assertSee('href="'.url('/kat-karsiligi').'"', false)
+            ->assertDontSee('goodrelations/v1#Sell');
+        $this->get('/sitemap.xml')->assertSee('<loc>'.route('properties.exchange').'</loc>', false);
+    }
+
     public function test_filters_by_type_location_price_area_and_rooms(): void
     {
         $match = $this->listing(['title' => 'Uygun Villa', 'property_type' => 'villa', 'city' => 'Muğla', 'district' => 'Bodrum', 'price' => 30_000_000, 'area_m2' => 300, 'rooms' => '5+2']);

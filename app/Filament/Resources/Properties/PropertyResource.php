@@ -132,7 +132,11 @@ class PropertyResource extends Resource
                     ->description(fn (Property $r) => $r->locationLabel()),
                 TextColumn::make('listing_type')->label('İşlem')->badge()
                     ->formatStateUsing(fn (ListingType $state) => $state->label())
-                    ->color(fn (ListingType $state) => $state === ListingType::Sale ? 'primary' : 'info'),
+                    ->color(fn (ListingType $state) => match ($state) {
+                        ListingType::Sale => 'primary',
+                        ListingType::Rent => 'info',
+                        ListingType::Exchange => 'warning',
+                    }),
                 TextColumn::make('property_type')->label('Tip')
                     ->formatStateUsing(fn (string $state) => Arr::collapse(config('real_estate.property_types'))[$state] ?? $state),
                 TextColumn::make('price')->label('Fiyat')->sortable()

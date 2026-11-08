@@ -10,6 +10,7 @@ return [
     'listing_types' => [
         'sale' => ['label' => 'Satılık', 'slug' => 'satilik'],
         'rent' => ['label' => 'Kiralık', 'slug' => 'kiralik'],
+        'exchange' => ['label' => 'Kat Karşılığı', 'slug' => 'kat-karsiligi'],   // kullanıcı talebi 2026-11-09
     ],
 
     // Emlak tipleri (gruplu). Anahtar veritabanında saklanır.

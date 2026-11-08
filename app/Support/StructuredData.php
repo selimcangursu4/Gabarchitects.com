@@ -152,9 +152,12 @@ final class StructuredData
                 '@type' => 'Offer',
                 'price' => $price,
                 'priceCurrency' => $property->currency ?: 'TRY',
-                'businessFunction' => $property->listing_type->value === 'rent'
-                    ? 'http://purl.org/goodrelations/v1#LeaseOut'
-                    : 'http://purl.org/goodrelations/v1#Sell',
+                // Kat karşılığının GoodRelations karşılığı yok → yazılmaz
+                'businessFunction' => match ($property->listing_type->value) {
+                    'rent' => 'http://purl.org/goodrelations/v1#LeaseOut',
+                    'sale' => 'http://purl.org/goodrelations/v1#Sell',
+                    default => null,
+                },
                 'availableAtOrFrom' => $property->locationLabel()
                     ? ['@type' => 'Place', 'name' => $property->locationLabel()]
                     : null,

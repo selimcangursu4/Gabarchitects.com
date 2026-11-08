@@ -10,7 +10,7 @@
         ])">
         {{-- Satılık / Kiralık / Tümü sekmeleri (talep 3) --}}
         <nav aria-label="Portföy türü" class="mt-12 flex flex-wrap gap-2 lg:mt-16">
-            @foreach ([['Tümü', route('properties.index'), ! $listingType], ['Satılık', route('properties.sale'), $listingType?->value === 'sale'], ['Kiralık', route('properties.rent'), $listingType?->value === 'rent']] as [$tabLabel, $tabUrl, $tabActive])
+            @foreach ([['Tümü', route('properties.index'), ! $listingType], ['Satılık', route('properties.sale'), $listingType?->value === 'sale'], ['Kiralık', route('properties.rent'), $listingType?->value === 'rent'], ['Kat Karşılığı', route('properties.exchange'), $listingType?->value === 'exchange']] as [$tabLabel, $tabUrl, $tabActive])
                 <a href="{{ $tabUrl }}" @if ($tabActive) aria-current="page" @endif
                    @class(['inline-flex h-11 items-center border px-5 text-[0.8125rem] font-medium uppercase tracking-[0.14em] transition-colors',
                            'border-fg bg-fg text-bg' => $tabActive, 'border-line hover:border-fg' => ! $tabActive])>{{ $tabLabel }}</a>

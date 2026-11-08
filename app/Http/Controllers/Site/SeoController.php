@@ -40,6 +40,7 @@ class SeoController extends Controller
                 $this->entry(route('properties.index'), $this->latestProperty(), 0.9),
                 $this->entry(route('properties.sale'), $this->latestProperty('sale'), 0.9),
                 $this->entry(route('properties.rent'), $this->latestProperty('rent'), 0.9),
+                $this->entry(route('properties.exchange'), $this->latestProperty('exchange'), 0.9),
             ))
             ->merge(Service::published()->orderBy('sort_order')->get(['slug', 'updated_at'])
                 ->map(fn (Service $s) => $this->entry(route('services.show', $s), $s->updated_at, 0.7)))

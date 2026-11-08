@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Enums\ContactStatus;
+use App\Enums\ListingType;
 use App\Enums\Role;
 use App\Filament\Pages\ManageSettings;
 use App\Filament\Resources\ContactMessages\Pages\ViewContactMessage;
@@ -104,6 +105,37 @@ class AdminCrudTest extends TestCase
 
         // Sitede görünür (talep 2: öne çıkan)
         $this->get('/')->assertSee('Bebek Boğaz Manzaralı Daire');
+    }
+
+    public function test_listing_type_offers_sale_rent_and_floor_exchange(): void
+    {
+        $this->assertSame(
+            ['sale' => 'Satılık', 'rent' => 'Kiralık', 'exchange' => 'Kat Karşılığı'],
+            collect(ListingType::cases())->mapWithKeys(fn ($t) => [$t->value => $t->label()])->all(),
+        );
+
+        Livewire::test(CreateProperty::class)
+            ->fillForm([
+                'title' => 'Kat Karşılığı Arsa',
+                'listing_type' => 'exchange',
+                'property_type' => 'arsa',
+                'listing_status' => 'available',
+                'city' => 'İstanbul',
+                'district' => 'Sarıyer',
+                'currency' => 'TRY',
+                'status' => 'published',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $this->assertSame(ListingType::Exchange, Property::where('title', 'Kat Karşılığı Arsa')->sole()->listing_type);
+
+        Livewire::test(CreateProperty::class)
+            ->fillForm(['title' => 'Geçersiz', 'listing_type' => 'takas', 'property_type' => 'arsa', 'listing_status' => 'available', 'status' => 'draft'])
+            ->call('create')
+            ->assertHasFormErrors(['listing_type']);
+
+        Livewire::test(ListProperties::class)->loadTable()->assertSee('Kat Karşılığı');
     }
 
     public function test_property_validation(): void

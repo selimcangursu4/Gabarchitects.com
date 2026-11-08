@@ -6,13 +6,14 @@ enum ListingType: string
 {
     case Sale = 'sale';
     case Rent = 'rent';
+    case Exchange = 'exchange';   // Kat karşılığı
 
     public function label(): string
     {
         return config("real_estate.listing_types.{$this->value}.label");
     }
 
-    /** URL segmenti: satilik | kiralik */
+    /** URL segmenti: satilik | kiralik | kat-karsiligi */
     public function slug(): string
     {
         return config("real_estate.listing_types.{$this->value}.slug");

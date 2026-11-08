@@ -38,15 +38,15 @@
       aria-label="Portföy arama"
       {{ $attributes->merge(['class' => $hero ? 'border border-line bg-bg/92 p-5 text-fg backdrop-blur-md sm:p-7' : 'text-fg']) }}>
 
-    {{-- İşlem tipi: Satılık / Kiralık --}}
+    {{-- İşlem tipi: Satılık / Kiralık / Kat Karşılığı --}}
     <fieldset>
         <legend class="sr-only">İşlem tipi</legend>
-        <div class="grid grid-cols-2 border border-line">
+        <div class="grid grid-cols-3 border border-line">
             @foreach ($listingTypes as $type)
                 <label class="relative cursor-pointer">
                     <input type="radio" name="islem" value="{{ $type['slug'] }}" x-model="islem" class="peer sr-only"
                            @checked($currentType === $type['slug'])>
-                    <span class="flex h-12 items-center justify-center text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-muted transition-colors peer-checked:bg-fg peer-checked:text-bg peer-focus-visible:outline peer-focus-visible:outline-1 peer-focus-visible:outline-accent">
+                    <span class="flex h-12 items-center justify-center px-1 text-center text-[0.75rem] font-medium uppercase leading-tight tracking-[0.08em] text-muted transition-colors peer-checked:bg-fg peer-checked:text-bg peer-focus-visible:outline peer-focus-visible:outline-1 peer-focus-visible:outline-accent">
                         {{ $type['label'] }}
                     </span>
                 </label>
