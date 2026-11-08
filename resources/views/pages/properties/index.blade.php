@@ -2,10 +2,10 @@
 <x-layouts.site :title="$title" :description="$title.' — '.(settings('site.brand') ?: config('gab.brand')).' gayrimenkul portföyü.'" :noindex="$activeFilterCount > 0">
     <x-site.page-header
         :title="$title"
-        eyebrow="Portföyümüz"
-        intro="İstanbul, Bodrum ve İzmir’in prestijli lokasyonlarındaki seçkin portföyümüzü filtreleyerek inceleyin."
+        eyebrow="Portföylerimiz"
+        intro="İstanbul, Bodrum ve İzmir’in prestijli lokasyonlarındaki seçkin portföylerimizi filtreleyerek inceleyin."
         :breadcrumbs="array_filter([
-            ['label' => 'Portföyümüz', 'url' => route('properties.index')],
+            ['label' => 'Portföylerimiz', 'url' => route('properties.index')],
             $listingType ? ['label' => $listingType->label()] : null,
         ])">
         {{-- Satılık / Kiralık / Tümü sekmeleri (talep 3) --}}
@@ -47,7 +47,7 @@
                     @if ($properties->isEmpty())
                         <div class="py-24 text-center">
                             <p class="font-serif text-h3">Bu kriterlere uygun ilan bulunamadı.</p>
-                            <p class="mx-auto mt-4 max-w-md text-muted">Filtreleri genişletebilir ya da aradığınız gayrimenkulü bize iletebilirsiniz; portföyümüze uygun seçenekler geldiğinde sizinle iletişime geçelim.</p>
+                            <p class="mx-auto mt-4 max-w-md text-muted">Filtreleri genişletebilir ya da aradığınız gayrimenkulü bize iletebilirsiniz; portföylerimize uygun seçenekler geldiğinde sizinle iletişime geçelim.</p>
                             <div class="mt-10 flex justify-center gap-4">
                                 <x-site.button href="{{ route('properties.index') }}" variant="outline">Tüm portföy</x-site.button>
                                 <x-site.button href="{{ route('contact') }}">Talep bırakın</x-site.button>

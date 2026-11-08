@@ -14,7 +14,7 @@
             <nav aria-label="Alt menü" class="col-span-2 lg:col-span-2">
                 <h2 class="eyebrow">Menü</h2>
                 <ul class="mt-6 space-y-3 text-[0.9375rem]">
-                    {{-- Bağlantısız üst öğeler (Kurumsal, Portföyümüz) yerine alt öğeleri listelenir --}}
+                    {{-- Bağlantısız üst öğeler (Kurumsal, Portföylerimiz) yerine alt öğeleri listelenir --}}
                     @foreach (collect($navigation)->flatMap(fn ($i) => $i['url'] ? [$i] : $i['children']) as $item)
                         <li><a href="{{ \App\Models\MenuItem::hrefFor($item['url']) }}" class="transition-colors hover:text-accent">{{ $item['label'] }}</a></li>
                     @endforeach

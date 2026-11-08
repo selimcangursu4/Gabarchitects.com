@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## [Kullanıcı talepleri] — 2026-11-08
+- Hero üst etiketi ("Mimarlık · Proje Geliştirme · İnşaat") kaldırıldı (panelden girilirse görünür); hero metninden "Entegre" çıkarıldı; "Portföyümüz" → **"Portföylerimiz"** (menü, ana sayfa bölümü, portföy sayfası başlık/breadcrumb). Var olan veritabanları: `2026_11_08_235000_update_home_hero_texts_and_portfolio_label` (yalnızca tam eşleşen eski metinler). 135 test.
 - **Hero görseli:** Boğaziçi yalıları (kullanıcı sağladı, 1080×1350) + hafif genel karartma (`#111111` %30), dikey görsel için `object-position: 50% 68%`. Yeni kurulumlar seed'den, var olanlar `2026_11_08_230000_set_home_hero_bosphorus_image` migration'ından alır (idempotent). Test eklendi; 134 test.
 - **Marka değişikliği (TD-061):** "GAB Architects" → "GAB Gayrimenkul Proje Geliştirme": logo (iki satırlı alt yazı), sayfa başlıkları, meta/OG, schema, panel adı, hata sayfaları, ana sayfa/Hakkımızda/SSS içerikleri, `APP_NAME`. Veri migration'ı `2026_11_08_220000_rename_brand_to_gab_gayrimenkul`. Testler: eski ad 13 adreste yok, migration dönüşümü. 132 test.
 - Ana sayfa hero filtresi: fiyat, metrekare ve oda sayısı "Daha fazla seçenek" düğmesinin arkasında (aç/kapa, `aria-expanded`). JS kapalıyken alanlar açık; ilk boyamada gizleme CSS ile (sayfa kayması yok). Bu alanlardan biri doluysa açık başlar. Portföy sayfası yan paneli değişmedi.

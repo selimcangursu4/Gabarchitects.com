@@ -33,9 +33,9 @@ return [
 
     'home' => [
         'hero' => [
-            'eyebrow' => 'Mimarlık · Proje Geliştirme · İnşaat',
+            'eyebrow' => null,   // kullanıcı talebiyle kaldırıldı (2026-11-08)
             'title' => 'Arsadan anahtar teslime.',
-            'text' => 'Entegre gayrimenkul proje geliştirme ve inşaat çözümleri.',
+            'text' => 'Gayrimenkul proje geliştirme ve inşaat çözümleri.',
             // Kullanıcı talebi (2026-11-08): hero görseli Boğaziçi yalıları
             'image' => 'bogazici-yalilar',
             'image_caption' => 'Boğaziçi yalıları',

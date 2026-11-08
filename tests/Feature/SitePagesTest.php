@@ -40,7 +40,7 @@ class SitePagesTest extends TestCase
         $html = $this->get('/hakkimizda')->assertOk()->getContent();
 
         $this->assertStringContainsString('>Anasayfa', $html);
-        foreach (['Kurumsal', 'Portföyümüz'] as $dropdown) {
+        foreach (['Kurumsal', 'Portföylerimiz'] as $dropdown) {
             $this->assertMatchesRegularExpression('/<button[^>]*aria-haspopup="true"[^>]*>\s*'.$dropdown.'/u', $html);
         }
         foreach (['/hakkimizda', '/satilik', '/kiralik'] as $child) {

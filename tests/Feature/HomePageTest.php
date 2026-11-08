@@ -175,6 +175,31 @@ class HomePageTest extends TestCase
         $this->assertStringContainsString('bg-[#111111]/30', $html);   // hafif karartma
     }
 
+    /** Kullanıcı talepleri: hero etiketi yok, "Entegre" yok, "Portföylerimiz" (menü + bölüm); eski veritabanı migration'la güncellenir */
+    public function test_hero_texts_and_portfolio_label(): void
+    {
+        // Eski içerikli veritabanını taklit et
+        $home = Page::where('key', 'home')->firstOrFail();
+        $content = $home->content;
+        $content['hero']['eyebrow'] = 'Mimarlık · Proje Geliştirme · İnşaat';
+        $content['hero']['text'] = 'Entegre gayrimenkul proje geliştirme ve inşaat çözümleri.';
+        $home->update(['content' => $content]);
+        MenuItem::where('label', 'Portföylerimiz')->update(['label' => 'Portföyümüz']);
+
+        $migration = require database_path('migrations/2026_11_08_235000_update_home_hero_texts_and_portfolio_label.php');
+        $migration->up();
+
+        $html = $this->get('/')->getContent();
+        $this->assertStringNotContainsString('Mimarlık · Proje Geliştirme · İnşaat', $html);
+        $this->assertStringNotContainsString('Entegre', $html);
+        $this->assertStringContainsString('Gayrimenkul proje geliştirme ve inşaat çözümleri.', $html);
+        $this->assertStringNotContainsString('Portföyümüz', $html);
+        $this->assertGreaterThanOrEqual(2, substr_count($html, 'Portföylerimiz'));   // menü + ana sayfa bölümü
+        $this->assertMatchesRegularExpression('/<h1 id="hero-title" class="max-w-\[12ch\] text-display">/', $html);   // etiket yokken üst boşluk yok
+
+        $this->get('/portfoy')->assertSee('Portföylerimiz')->assertDontSee('Portföyümüz');
+    }
+
     public function test_unknown_page_returns_branded_404(): void
     {
         $this->get('/olmayan-sayfa')

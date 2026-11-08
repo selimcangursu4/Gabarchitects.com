@@ -30,7 +30,7 @@ class PropertyController extends Controller
             'fixedType' => (bool) $listingType,
             'locations' => $search->locationOptions(),
             'activeFilterCount' => $search->activeCount($filters),
-            'title' => $type ? $type->label().' Portföy' : 'Portföyümüz',
+            'title' => $type ? $type->label().' Portföy' : 'Portföylerimiz',
         ]);
     }
 

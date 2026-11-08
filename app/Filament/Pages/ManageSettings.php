@@ -124,7 +124,7 @@ class ManageSettings extends Page implements HasSchemas
                 ]),
                 Section::make('Modüller')->schema([
                     Toggle::make('modules.real_estate')->label('Gayrimenkul portföyü')
-                        ->helperText('Kapatılırsa ana sayfadaki filtre ve Portföyümüz bölümü gizlenir; Satılık/Kiralık sayfaları 404 döner.'),
+                        ->helperText('Kapatılırsa ana sayfadaki filtre ve Portföylerimiz bölümü gizlenir; Satılık/Kiralık sayfaları 404 döner.'),
                 ]),
                 Section::make('Çerez bildirimi')->collapsed()->schema([
                     Textarea::make('legal.cookie_banner_text')->label('Çerez bandı metni')->rows(3)->maxLength(500)

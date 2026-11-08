@@ -217,7 +217,7 @@ class SiteContentSeeder extends Seeder
             'header' => ['Ana menü', [
                 ['Anasayfa', '/', []],
                 ['Kurumsal', null, [['Hakkımızda', '/hakkimizda'], ['Referanslar', '/referanslar']]],
-                ['Portföyümüz', null, [['Satılık', '/satilik'], ['Kiralık', '/kiralik']]],
+                ['Portföylerimiz', null, [['Satılık', '/satilik'], ['Kiralık', '/kiralik']]],
                 ['Projeler', '/projeler', []],
                 ['Hizmetler', '/hizmetler', []],
                 ['Blog', '/blog', []],

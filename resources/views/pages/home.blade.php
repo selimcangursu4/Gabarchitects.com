@@ -38,9 +38,12 @@
         <div class="container-gab w-full pb-12 pt-32 lg:pb-16 lg:pt-40">
             <div class="grid-gab items-end gap-y-12">
                 <div @class(['col-span-4', 'lg:col-span-6 xl:col-span-7' => $realEstate, 'lg:col-span-10' => ! $realEstate])>
-                    <p class="eyebrow text-on-image/80" data-reveal>{{ $home['hero']['eyebrow'] }}</p>
+                    {{-- Üst etiket kullanıcı talebiyle kaldırıldı (2026-11-08); panelden girilirse yeniden görünür --}}
+                    @if (filled($home['hero']['eyebrow'] ?? null))
+                        <p class="eyebrow text-on-image/80" data-reveal>{{ $home['hero']['eyebrow'] }}</p>
+                    @endif
                     {{-- LCP öğesi: reveal animasyonu yok (JS beklemeden ilk boyamada görünür — Core Web Vitals) --}}
-                    <h1 id="hero-title" class="mt-6 max-w-[12ch] text-display">
+                    <h1 id="hero-title" @class(['max-w-[12ch] text-display', 'mt-6' => filled($home['hero']['eyebrow'] ?? null)])>
                         {{ $home['hero']['title'] }}
                     </h1>
                     <div class="mt-10 max-w-md border-t border-on-image/25 pt-8 lg:mt-12" data-reveal style="--reveal-delay: 240ms">
@@ -74,7 +77,7 @@
                 <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between" data-reveal>
                     <div>
                         <p class="eyebrow flex items-center gap-4"><span class="h-px w-10 bg-line" aria-hidden="true"></span>Öne çıkanlar</p>
-                        <h2 id="portfolio-title" class="mt-8 text-h1">Portföyümüz</h2>
+                        <h2 id="portfolio-title" class="mt-8 text-h1">Portföylerimiz</h2>
                     </div>
                     <div class="flex flex-wrap gap-x-8 gap-y-3">
                         <x-site.button href="{{ route('properties.sale') }}" variant="link">Satılık</x-site.button>
