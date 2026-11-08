@@ -32,7 +32,7 @@ Artisan::command('gab:purge-samples', function (MediaService $media) {
 
 /*
 | İlk kurulum: veritabanı boşsa (sayfa kaydı yoksa) seed çalıştırır; doluysa hiçbir şeye dokunmaz.
-| Konteyner her başladığında güvenle çağrılabilir (docker/entrypoint.sh). Panelden girilen içerik ezilmez.
+| Tekrar çalıştırılması güvenlidir; panelden girilen içerik ezilmez.
 */
 Artisan::command('gab:seed-if-empty', function () {
     if (Page::query()->exists()) {
@@ -46,31 +46,11 @@ Artisan::command('gab:seed-if-empty', function () {
 })->purpose('Veritabanı boşsa ilk içeriği yükler (idempotent)');
 
 /*
-| Test/önizleme sunucusu (GAB_SEED_SAMPLES=true): ÖRNEK ilan hiç yoksa yükler; varsa dokunmaz.
-| Kapalıyken hiçbir şey yapmaz. Silmek için: gab:purge-samples (silindikten sonra bayrak kapatılmalı).
-*/
-Artisan::command('gab:seed-samples-if-missing', function () {
-    if (! config('gab.seed_samples')) {
-        $this->info('GAB_SEED_SAMPLES kapalı; örnek ilan yüklenmedi.');
-
-        return;
-    }
-
-    if (Property::withTrashed()->where('is_sample', true)->exists()) {
-        $this->info('Örnek ilanlar zaten var.');
-
-        return;
-    }
-
-    $this->call('db:seed', ['--class' => 'SamplePropertySeeder', '--force' => true]);
-})->purpose('Test sunucusunda ÖRNEK ilan yoksa yükler (idempotent)');
-
-/*
 | Yönetici hesabını .env'deki ADMIN_EMAIL / ADMIN_PASSWORD'e taşır (şifre kodda tutulmaz).
 | - Bu e-postayla bir hesap zaten varsa hiçbir şey yapmaz (panelden değiştirilen şifre ezilmez).
 | - Yoksa ilk Super Admin hesabının e-postası ve şifresi bu değerlerle güncellenir.
 | - Hiç Super Admin yoksa AdminUserSeeder çalışır.
-| Taşınan veritabanında (Railway → Turhost) ve her konteyner açılışında güvenle çağrılabilir.
+| Taşınan bir veritabanında ve her güncellemeden sonra güvenle çağrılabilir.
 */
 Artisan::command('gab:sync-admin', function () {
     $email = config('gab.admin.email');

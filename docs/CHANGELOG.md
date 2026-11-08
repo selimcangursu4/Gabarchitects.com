@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [Railway kaldırıldı] — 2026-11-09
+- Kullanıcı kararı: yalnızca Turhost. `Dockerfile`, `docker/`, `.dockerignore`, `railway.json`, `gab:seed-samples-if-missing`, `GAB_SEED_SAMPLES` silindi; DEPLOYMENT_GUIDE'dan Railway bölümü çıkarıldı (TD-060 → Kaldırıldı). ÖRNEK ilanlar production'da hiçbir yoldan oluşmaz (test güncellendi).
+
 ## [Canlıya hazırlık — gabarchitects.com] — 2026-11-08 (PHASE 08 başlangıcı)
 - **Test içerikleri silindi** (kullanıcı talebi): yalnızca "Arkas Railport Uygulama Projemiz" projesi ve "Konya'da Fırsat Tarla" ilanı kalır. Migration `2026_11_09_020000_prune_test_projects_and_properties`: iki kayıt da yoksa hiçbir şey silmez (yeni kurulum/lokal güvenli); silinenlerin başka yerde kullanılmayan görselleri dosyalarıyla kaldırılır; ana sayfa "yaklaşım" görseli kalan projeye bağlanır. Railway'de ÖRNEK ilan yeniden yüklenmez (`gab:seed-samples-if-missing` entrypoint'ten çıkarıldı).
 - **Yönetici hesabı `.env`'den:** `gab:sync-admin` → ilk Super Admin'in e-posta/şifresini `ADMIN_EMAIL`/`ADMIN_PASSWORD`'e taşır (bir kez; panelden değiştirilen şifre ezilmez; eski oturumlar kapanır). Şifre depoda yok.

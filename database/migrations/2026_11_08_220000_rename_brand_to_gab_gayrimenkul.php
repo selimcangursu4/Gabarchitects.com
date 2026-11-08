@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Marka değişikliği (TD-061, kullanıcı kararı 2026-11-08): "GAB Architects" → "GAB Gayrimenkul Proje Geliştirme".
- * Var olan veritabanlarında (lokal, Railway) site içeriğindeki marka adı güncellenir.
+ * Var olan veritabanlarında (lokal, sunucu) site içeriğindeki marka adı güncellenir.
  * Geçmiş kayıtlara (iletişim mesajları, işlem kayıtları) dokunulmaz.
  */
 return new class extends Migration

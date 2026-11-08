@@ -73,40 +73,6 @@ Cron'da `php` yerine cPanel'in gösterdiği tam yol kullanılır (ör. `/opt/cpa
     - Google Search Console: alan adı doğrulanır, `sitemap.xml` gönderilir. Eski WordPress adresleri için Yönlendirmeler (panel → `/admin/redirects`) kontrol edilir.
     - Lighthouse (mobil) ana sayfa + bir ilan + bir proje; sonuç PHASE_TRACKER'a yazılır.
 
-## Test / önizleme ortamı — Railway (TD-060)
-> Production değildir. Müşteri önizlemesi ve Turhost öncesi MySQL/Apache provası içindir. Arama motorlarına kapalıdır.
-
-Depodaki dosyalar: `Dockerfile`, `docker/entrypoint.sh`, `railway.json`, `.dockerignore`.
-
-1. railway.com → GitHub ile giriş → **New Project → Deploy from GitHub repo** → `Gabarchitects.com`.
-2. Aynı projede **+ Create → Database → MySQL**.
-3. Web servisi → **Settings → Volumes → Add Volume**, mount path: `/data` (görseller, orijinaller, APP_KEY).
-4. Web servisi → **Variables** (Raw Editor):
-   ```
-   APP_NAME="GAB Gayrimenkul Proje Geliştirme"
-   APP_ENV=production
-   APP_DEBUG=false
-   APP_URL=https://${{RAILWAY_PUBLIC_DOMAIN}}
-   APP_LOCALE=tr
-   DB_CONNECTION=mysql
-   DB_URL=${{MySQL.MYSQL_URL}}
-   SESSION_DRIVER=database
-   CACHE_STORE=database
-   QUEUE_CONNECTION=sync
-   LOG_CHANNEL=stderr
-   MAIL_MAILER=log
-   TRUSTED_PROXIES=*
-   SEO_INDEXABLE=false
-   GAB_SEED_SAMPLES=true
-   ADMIN_NAME="GAB Yönetici"
-   ADMIN_EMAIL=<yönetici e-postası>
-   ADMIN_PASSWORD=<güçlü şifre>
-   ```
-   `APP_KEY` verilmezse ilk açılışta üretilip `/data/app.key` içinde saklanır.
-5. **Settings → Networking → Generate Domain** → `https://…up.railway.app`.
-6. İlk açılış: migration + ilk içerik (13 görsel, AVIF dahil 1–2 dk). Sonraki dağıtımlarda içerik korunur (`gab:seed-if-empty`).
-7. Kontrol: ana sayfa, `/admin` girişi, iletişim formu → Web Formları, panelden görsel yükleme, yeniden dağıtım sonrası görsel/kayıt duruyor mu.
-
 ## Güvenlik kontrolü (PHASE 07)
 1. **SSL önce:** production'da oturum çerezi yalnızca HTTPS'te gönderilir (TD-057). SSL yoksa panele giriş yapılamaz. Geçici olarak gerekirse `SESSION_SECURE_COOKIE=false` (yalnızca kurulum sırasında, sonra silinir).
 2. `APP_DEBUG=false` doğrula: olmayan bir hata tetiklenince marka 500 sayfası görünmeli, dosya yolu/sürüm görünmemeli.

@@ -36,7 +36,7 @@ class InfrastructureTest extends TestCase
         $this->get('/')->assertSee('GAB Gayrimenkul Proje Geliştirme');
     }
 
-    /** Var olan veritabanları (Railway) migration ile yeni markaya geçer; Türkçe ek de düzelir */
+    /** Var olan veritabanları migration ile yeni markaya geçer; Türkçe ek de düzelir */
     public function test_brand_migration_updates_existing_content(): void
     {
         app(SettingService::class)->set('site.brand', 'GAB Architects', 'general');

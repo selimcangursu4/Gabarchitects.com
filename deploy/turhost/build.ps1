@@ -67,7 +67,7 @@ Write-Output '3/6 Composer (no-dev, optimized)'
 Run composer @('install', '--no-dev', '--optimize-autoloader', '--no-interaction', '--no-progress', "--working-dir=$app")
 
 Write-Output '4/6 Remove files not needed on the server'
-foreach ($p in @('tests', 'docker', 'deploy', 'docs', '.github', 'Dockerfile', '.dockerignore', 'railway.json',
+foreach ($p in @('tests', 'deploy', 'docs', '.github',
                  'phpunit.xml', 'package.json', 'package-lock.json', 'vite.config.js', 'resources\js', 'resources\css',
                  '.editorconfig', '.gitattributes', '.env.example', 'CLAUDE.md', 'AGENTS.md', 'database\database.sqlite')) {
     $t = Join-Path $app $p

@@ -37,9 +37,9 @@ class SamplePropertySeeder extends Seeder
 
     public function run(MediaService $media): void
     {
-        // Gerçek production'da asla; yalnızca test/önizleme sunucusunda GAB_SEED_SAMPLES=true ile (TD-060)
-        if (app()->isProduction() && ! config('gab.seed_samples')) {
-            $this->command?->warn('SamplePropertySeeder production ortamında çalıştırılmaz (GAB_SEED_SAMPLES kapalı).');
+        // Production'da asla (gerçek ilan yok; örnekler yalnızca lokal tasarım için)
+        if (app()->isProduction()) {
+            $this->command?->warn('SamplePropertySeeder production ortamında çalıştırılmaz.');
 
             return;
         }

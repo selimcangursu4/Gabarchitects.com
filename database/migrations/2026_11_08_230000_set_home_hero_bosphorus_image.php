@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * Kullanıcı talebi (2026-11-08): ana sayfa hero görseli → Boğaziçi yalıları.
- * Var olan veritabanlarında (Railway) görsel bir kez içe aktarılır, ana sayfa kapağı ve görsel notu güncellenir.
+ * Var olan veritabanlarında görsel bir kez içe aktarılır, ana sayfa kapağı ve görsel notu güncellenir.
  * Yeni kurulumlar aynı görseli SiteContentSeeder'dan alır. Tekrar çalışırsa görseli ikinci kez eklemez.
  */
 return new class extends Migration

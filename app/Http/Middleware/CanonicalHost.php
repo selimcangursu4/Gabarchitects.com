@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Tek adres (TD-062): APP_URL'deki alan adı esas alınır.
  * - www.alan-adi → https://alan-adi (301)
  * - http://alan-adi → https://alan-adi (301, APP_URL https ise)
- * Başka host'lara (ör. Railway sağlık kontrolü, geçici adresler) dokunmaz; bu yüzden yönlendirme döngüsü oluşmaz.
+ * Başka host'lara (ör. sunucu sağlık kontrolü, geçici adresler) dokunmaz; bu yüzden yönlendirme döngüsü oluşmaz.
  * Yalnızca GET/HEAD yönlendirilir (form gövdesi kaybolmasın).
  */
 class CanonicalHost

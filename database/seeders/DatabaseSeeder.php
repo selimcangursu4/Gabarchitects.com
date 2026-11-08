@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Örnek ilanlar yalnızca lokal tasarım içindir (gerçek ilan yok). Silmek: php artisan gab:purge-samples
-        // Test/önizleme sunucusunda GAB_SEED_SAMPLES=true ile açılabilir (TD-060)
-        if (app()->environment('local') || config('gab.seed_samples')) {
+        if (app()->environment('local')) {
             $this->call(SamplePropertySeeder::class);
         }
     }

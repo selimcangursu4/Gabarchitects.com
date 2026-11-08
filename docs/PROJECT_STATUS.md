@@ -10,10 +10,8 @@
 - Gayrimenkul portföyü sitenin merkezinde · Turhost analizi ertelendi
 - İlan detayında form yok: WhatsApp + Ara butonları (TD-047)
 
-## Test / önizleme sitesi (Railway, TD-060)
-- https://gabarchitectscom-production.up.railway.app — panel: `/admin` (giriş bilgileri kullanıcının bilgisayarında `~/gab-railway-yonetici.txt`)
-- Production değildir; arama motorlarına kapalı. Test içerikleri silindi (2026-11-08): yalnızca Arkas Railport Uygulama Projemiz + Konya'da Fırsat Tarla; ÖRNEK ilan yok. Kurulum: DEPLOYMENT_GUIDE → "Test / önizleme ortamı".
-- Otomatik dağıtım: serviste GitHub tetikleyicisi yoktu (ilk gönderimler bu yüzden dağıtılmadı); 2026-11-08'de `main` için tetikleyici eklendi → `main`'e her gönderim Railway'de otomatik dağıtılır.
+## Barındırma
+- **Yalnızca Turhost** (kullanıcı kararı 2026-11-09: "projenin Railway ile hiçbir bağlantısı kalmayacak"). Railway test ortamı (TD-060) kaldırıldı: Docker/Railway dosyaları depodan silindi. Gerçek içerik (1 proje + 1 ilan + ayarlar) Turhost'a bir kez aktarılacak, ardından Railway projesi silinecek.
 
 ## Lokal çalıştırma
 ```bash

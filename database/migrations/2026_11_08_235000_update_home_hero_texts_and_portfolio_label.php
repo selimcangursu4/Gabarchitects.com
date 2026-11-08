@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Kullanıcı talepleri (2026-11-08), var olan veritabanları (Railway) için:
+ * Kullanıcı talepleri (2026-11-08), var olan veritabanları için:
  *  - Hero üst etiketi "Mimarlık · Proje Geliştirme · İnşaat" kaldırılır
  *  - Hero metninden "Entegre" çıkarılır
  *  - Menü "Portföyümüz" → "Portföylerimiz"

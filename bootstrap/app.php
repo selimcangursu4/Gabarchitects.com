@@ -24,7 +24,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
         // En dışta: bakım (503) ve hata sayfaları (404/500) dahil her yanıtta güvenlik başlıkları + CSP nonce
         $middleware->prepend(SecurityHeaders::class);
 
-        // Yalnızca TRUSTED_PROXIES tanımlıysa (Railway gibi HTTPS'i proxy'de sonlandıran ortamlar): "*" veya virgüllü IP'ler.
+        // Yalnızca TRUSTED_PROXIES tanımlıysa (HTTPS'i önde sonlandıran bir proxy, ör. Cloudflare): "*" veya virgüllü IP'ler.
         // Turhost'ta (doğrudan Apache) TANIMLANMAZ: aksi halde ziyaretçi X-Forwarded-For ile IP taklit edip
         // form / giriş deneme sınırlarını atlatabilir. Not: config yüklenmeden çalışır → gerçek ortam değişkeni olmalı.
         if ($proxies = env('TRUSTED_PROXIES')) {
@@ -44,7 +44,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
 // Turhost paylaşımlı hosting (Senaryo B, TD-063): uygulama ~/gab, web kökü ~/public_html.
 // ~/gab/.public_path dosyası web kökünün yolunu tutar (ör. "../public_html"); config yüklenmeden okunur ki
 // görsel diski (public_path('media')), Vite manifest'i ve artisan komutları aynı klasörü kullansın.
-// Dosya yoksa (lokal, Railway, testler) Laravel'in varsayılan public/ klasörü kullanılır.
+// Dosya yoksa (lokal, testler) Laravel'in varsayılan public/ klasörü kullanılır.
 if (is_file($marker = dirname(__DIR__).'/.public_path')) {
     $configured = trim((string) file_get_contents($marker));
     $publicPath = $configured === '' ? false : realpath(

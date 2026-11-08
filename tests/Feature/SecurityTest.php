@@ -221,8 +221,8 @@ class SecurityTest extends TestCase
         $this->assertSame('Panelden değiştirildi', $page->fresh()->title);
     }
 
-    /** ÖRNEK ilanlar gerçek production'a girmez; yalnızca GAB_SEED_SAMPLES ile test sunucusunda, bir kez */
-    public function test_sample_listings_only_with_flag_and_only_once(): void
+    /** ÖRNEK ilanlar production'a hiçbir yoldan girmez (ne seeder ne ilk kurulum) */
+    public function test_sample_listings_never_in_production(): void
     {
         Storage::fake('media');
         Storage::fake('local');
@@ -230,18 +230,9 @@ class SecurityTest extends TestCase
         $this->app['env'] = 'production';
 
         try {
-            config(['gab.seed_samples' => false]);
-            $this->artisan('gab:seed-samples-if-missing')->assertSuccessful();
             $this->artisan('db:seed', ['--class' => 'SamplePropertySeeder', '--force' => true])->assertSuccessful();
+            $this->artisan('db:seed', ['--force' => true])->assertSuccessful();
             $this->assertSame(0, Property::where('is_sample', true)->count());
-
-            config(['gab.seed_samples' => true]);
-            $this->artisan('gab:seed-samples-if-missing')->assertSuccessful();
-            $count = Property::where('is_sample', true)->count();
-            $this->assertGreaterThan(0, $count);
-
-            $this->artisan('gab:seed-samples-if-missing')->expectsOutputToContain('zaten var')->assertSuccessful();
-            $this->assertSame($count, Property::where('is_sample', true)->count());
         } finally {
             $this->app['env'] = 'testing';
         }
