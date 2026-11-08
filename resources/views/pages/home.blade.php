@@ -131,11 +131,11 @@
                         </div>
                         <div class="border-b border-r border-line py-6 pr-4">
                             <dt class="eyebrow">Portföy</dt>
-                            <dd class="mt-2 font-serif text-h3">{{ $projectCount }} proje</dd>
+                            <dd class="mt-2 font-serif text-h3" data-stat="projects">{{ $projectCount }} proje</dd>
                         </div>
                         <div class="border-b border-line py-6 pl-6">
                             <dt class="eyebrow">Hizmet</dt>
-                            <dd class="mt-2 font-serif text-h3">{{ $services->count() }} disiplin</dd>
+                            <dd class="mt-2 font-serif text-h3" data-stat="services">{{ $serviceCount }} disiplin</dd>
                         </div>
                     </dl>
 

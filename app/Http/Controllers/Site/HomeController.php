@@ -29,7 +29,9 @@ class HomeController extends Controller
             // Talep 6: öne çıkan olarak işaretlenmiş son 4 proje
             'featured' => Project::published()->featured()->latestFirst()->with(['cover', 'category'])->limit(4)->get(),
             'approachProject' => Project::published()->with('cover')->find($page->field('approach.project_id')),
+            // "Hakkımızda" bölümündeki sayılar: yalnızca yayındaki kayıtlar (taslak / zamanlanmış / silinmiş sayılmaz)
             'projectCount' => Project::published()->count(),
+            'serviceCount' => Service::published()->count(),
             'services' => Service::published()->orderBy('sort_order')->with('cover')->get(),
             // Talep 8: ana sayfada öne çıkan son 16 referans
             'references' => Reference::query()->where('is_active', true)->where('is_featured', true)

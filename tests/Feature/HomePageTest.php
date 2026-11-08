@@ -126,6 +126,30 @@ class HomePageTest extends TestCase
         }
     }
 
+    /** Kullanıcı talebi: Hakkımızda bölümündeki proje / hizmet sayıları panelden eklenen-silinen kayıtlarla değişir */
+    public function test_about_section_counts_follow_published_projects_and_services(): void
+    {
+        $stat = function (string $key): int {
+            preg_match('/data-stat="'.$key.'">(\d+)/', $this->get('/')->getContent(), $m);
+
+            return (int) ($m[1] ?? -1);
+        };
+
+        $projects = Project::published()->count();
+        $services = Service::published()->count();
+        $this->assertSame($projects, $stat('projects'));
+        $this->assertSame($services, $stat('services'));
+
+        Project::create(['title' => 'Yeni Yayındaki Proje', 'status' => 'published']);
+        Project::create(['title' => 'Taslak Proje', 'status' => 'draft']);
+        Project::create(['title' => 'Zamanlanmış Proje', 'status' => 'published', 'published_at' => now()->addWeek()]);
+        $this->assertSame($projects + 1, $stat('projects'), 'Yalnızca yayındaki proje sayılmalı');
+
+        Service::published()->firstOrFail()->delete();
+        Service::create(['title' => 'Taslak Hizmet', 'status' => 'draft']);
+        $this->assertSame($services - 1, $stat('services'), 'Silinen hizmet düşmeli, taslak sayılmamalı');
+    }
+
     public function test_unknown_page_returns_branded_404(): void
     {
         $this->get('/olmayan-sayfa')
