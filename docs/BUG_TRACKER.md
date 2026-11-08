@@ -27,6 +27,9 @@
 | BUG-024 | 2026-11-08 | 07 | Bakım (503) yanıtı güvenlik başlıklarını almıyordu, nonce boştu: bakım kontrolü güvenlik middleware'inden önce çalışıyordu | Düşük | Düzeltildi: `SecurityHeaders` en dışta (`prepend`). Test: `SecurityTest::test_maintenance_page` |
 | BUG-025 | 2026-11-08 | 07 | Panelde tekil görsel alanı, MediaService'in reddettiği dosyada (bozuk / piksel sınırı) sunucu hatası veriyordu | Orta | Düzeltildi: alan altında doğrulama mesajı. Test: `test_panel_upload_errors_are_shown_on_the_field_not_as_server_error` |
 | BUG-026 | 2026-11-08 | 07 | Laravel'in `local` disk `storage/{path}` GET/PUT route'ları açıktı (imzalı URL ile; kullanılmıyordu) | Düşük | Düzeltildi: `'serve' => false`; route'lar kaldırıldı, test eklendi |
+| BUG-027 | 2026-11-08 | Railway | Konteyner "AH00534: More than one MPM loaded" ile açılmıyordu | Yüksek (test ortamı) | Düzeltildi: imajda ve başlangıçta yalnızca `mpm_prefork` (mod_php) |
+| BUG-028 | 2026-11-08 | Railway | `SamplePropertySeeder` kendi production kontrolü yüzünden `GAB_SEED_SAMPLES`'ı yok sayıyordu (0 ilan) | Orta | Düzeltildi + `gab:seed-samples-if-missing`; test: `test_sample_listings_only_with_flag_and_only_once` |
+| BUG-029 | 2026-11-08 | 07 | `.gitignore` Filament varlıklarını dışlıyordu (TD-045 ile çelişki) → başka sunucuda panel stilsiz açılırdı | Yüksek | Düzeltildi: `public/css|js|fonts/filament` depoda |
 | BUG-022 | 2026-11-08 | 06 | Erişilebilirlik: sayfalamadaki pasif "Önceki/Sonraki" kontrastı 2.17:1 (`opacity-40`); ilan listesinde h1 → h3 başlık atlaması | Düşük | Düzeltildi: `text-muted` + `aria-disabled`; listeye gizli `h2` |
 
 ## Mevcut (eski) sitede tespit edilen sorunlar — referans amaçlı

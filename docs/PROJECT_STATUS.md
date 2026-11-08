@@ -9,6 +9,11 @@
 - Gayrimenkul portföyü sitenin merkezinde · Turhost analizi ertelendi
 - İlan detayında form yok: WhatsApp + Ara butonları (TD-047)
 
+## Test / önizleme sitesi (Railway, TD-060)
+- https://gabarchitectscom-production.up.railway.app — panel: `/admin` (giriş bilgileri kullanıcının bilgisayarında `~/gab-railway-yonetici.txt`)
+- Production değildir; arama motorlarına kapalı; ÖRNEK ilanlar var. Kurulum: DEPLOYMENT_GUIDE → "Test / önizleme ortamı".
+- Not: GitHub'a gönderim otomatik dağıtımı tetiklemedi; dağıtımlar API/panelden "Deploy" ile başlatıldı.
+
 ## Lokal çalıştırma
 ```bash
 composer install && npm install && npm run build

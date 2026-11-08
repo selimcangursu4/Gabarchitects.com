@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [Railway test ortamı] — 2026-11-08 (TD-060)
+- Yayında: https://gabarchitectscom-production.up.railway.app (arama motorlarına kapalı, ÖRNEK ilanlı).
+- Docker (PHP 8.4 + Apache + .htaccess), Railway MySQL 8, `/data` kalıcı disk; APP_KEY diskte üretilir.
+- **MySQL provası:** 8 migration + tüm seed'ler MySQL 8'de sorunsuz (TD-016 doğrulandı).
+- Canlı doğrulama: 15 adres, gzip, HSTS, CSP, AVIF + 1 yıl önbellek, panel girişi, iletişim formu → Web Formları (test mesajı silindi) — tarayıcı testi 13/13.
+- `TRUSTED_PROXIES` (yalnızca proxy arkasında), `GAB_SEED_SAMPLES`, `gab:seed-if-empty`, `gab:seed-samples-if-missing`; dil varsayılanı `tr`.
+- Düzeltmeler: BUG-027 (Apache MPM), BUG-028 (örnek ilan seed), BUG-029 (Filament varlıkları depoda). Toplam 127 test.
+
 ## [PHASE 07] — 2026-11-08
 ### Eklendi
 - `App\Http\Middleware\SecurityHeaders` (global, en dışta): güvenlik başlıkları, nonce tabanlı CSP (genel site), HSTS (HTTPS + production), panelde `X-Robots-Tag: noindex`, `X-Powered-By` kaldırma (TD-054).
