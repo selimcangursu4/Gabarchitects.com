@@ -40,6 +40,12 @@ class MediaService
             throw new InvalidArgumentException('Görselin piksel boyutu çok büyük (en fazla '.round(config('media.max_pixels') / 1_000_000).' megapiksel).');
         }
 
+        $this->ensureMemoryFor($info[0] * $info[1]);
+        // Yüksek çözünürlüklü görselde AVIF türevleri ~40 sn sürebilir (5120 px ölçümü); zaman aşımına düşmesin
+        if (function_exists('set_time_limit')) {
+            @set_time_limit(300);
+        }
+
         $image = @imagecreatefromstring($bytes);
 
         if (! $image instanceof GdImage) {
@@ -96,10 +102,11 @@ class MediaService
         $w = imagesx($image);
         $h = imagesy($image);
 
-        // Kaynaktan küçük genişlikler + kaynak genişliği (en fazla 2400). Büyütme yapılmaz.
+        // Kaynaktan küçük genişlikler + kaynak genişliği (en fazla listedeki en büyük değer). Büyütme yapılmaz.
         $widths = array_values(array_filter(config('media.widths'), fn (int $tw) => $tw < $w));
         $widths[] = min($w, max(config('media.widths')));
         $widths = array_values(array_unique($widths));
+        imagesavealpha($image, true);
 
         $formats = ['webp'];
         if (static::avifSupported()) {
@@ -109,11 +116,18 @@ class MediaService
         $variants = array_fill_keys($formats, []);
 
         foreach ($widths as $tw) {
+            // Kaynakla aynı genişlik: yeniden örnekleme yok (tam çözünürlük, ikinci bir dev kopya açılmaz)
+            $isSource = $tw === $w;
             $th = (int) round($h * $tw / $w);
-            $resized = imagecreatetruecolor($tw, $th);
-            imagealphablending($resized, false);
-            imagesavealpha($resized, true);
-            imagecopyresampled($resized, $image, 0, 0, 0, 0, $tw, $th, $w, $h);
+
+            if ($isSource) {
+                $resized = $image;
+            } else {
+                $resized = imagecreatetruecolor($tw, $th);
+                imagealphablending($resized, false);
+                imagesavealpha($resized, true);
+                imagecopyresampled($resized, $image, 0, 0, 0, 0, $tw, $th, $w, $h);
+            }
 
             foreach ($formats as $format) {
                 ob_start();
@@ -124,9 +138,38 @@ class MediaService
                 $variants[$format][] = $tw;
             }
 
-            imagedestroy($resized);
+            if (! $isSource) {
+                imagedestroy($resized);
+            }
         }
 
         return $variants;
+    }
+
+    /**
+     * GD görseli bellekte açılmış hâliyle tutar (~4 bayt/piksel). Kaynak + en büyük ara türev + pay için
+     * gereken bellek, PHP sınırından fazlaysa sınır bu işlem için yükseltilir (ör. 17,5 MP → ~220 MB).
+     * Sunucu sınırı yükseltmeye izin vermiyorsa ini_set sessizce başarısız olur; o durumda daha küçük görsel gerekir.
+     */
+    private function ensureMemoryFor(int $pixels): void
+    {
+        $needed = (int) ($pixels * 4 * 1.8) + 96 * 1024 * 1024;
+        $limit = (string) ini_get('memory_limit');
+
+        if ($limit === '-1') {
+            return;
+        }
+
+        $bytes = (int) $limit;
+        $bytes *= match (strtolower(substr($limit, -1))) {
+            'g' => 1024 ** 3,
+            'm' => 1024 ** 2,
+            'k' => 1024,
+            default => 1,
+        };
+
+        if ($bytes < $needed) {
+            @ini_set('memory_limit', (string) $needed);
+        }
     }
 }

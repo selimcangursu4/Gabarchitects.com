@@ -26,8 +26,8 @@
          ============================================================ --}}
     <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-[#111111] text-on-image" aria-labelledby="hero-title">
         <div class="absolute inset-0 -z-10">
-            {{-- Konum: dikey görsellerde yatay ekranda yapıların bulunduğu alt-orta bölge görünsün --}}
-            <x-site.picture :media="$heroImage" :alt="$home['hero']['image_caption']" eager class="hero-image object-[50%_68%]" />
+            {{-- Konum: yapıların bulunduğu orta / orta-alt bölge kırpılmasın --}}
+            <x-site.picture :media="$heroImage" :alt="$heroImage?->alt ?: $home['hero']['image_caption']" eager class="hero-image object-[50%_60%]" />
             {{-- Hafif genel karartma (kullanıcı talebi) + okunabilirlik için üst (header) ve alt (başlık) gradyanları --}}
             <div class="absolute inset-0 bg-[#111111]/30"></div>
             <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(17,17,17,0.55)_0%,rgba(17,17,17,0)_22%,rgba(17,17,17,0)_45%,rgba(17,17,17,0.82)_100%)]"></div>
