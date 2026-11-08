@@ -10,7 +10,9 @@ use App\Filament\Resources\Media\Pages\ListMedia;
 use App\Filament\Resources\Menus\Pages\EditMenu;
 use App\Filament\Resources\Pages\EditPage;
 use App\Filament\Resources\Projects\Pages\EditProject;
+use App\Filament\Resources\Projects\Pages\ListProjects;
 use App\Filament\Resources\Properties\Pages\CreateProperty;
+use App\Filament\Resources\Properties\Pages\ListProperties;
 use App\Filament\Resources\Services\Pages\CreateService;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
@@ -296,6 +298,38 @@ class AdminCrudTest extends TestCase
         $this->assertFalse(ManageSettings::canAccess());
         $this->get('/admin/users')->assertForbidden();
         $this->get('/admin/settings')->assertForbidden();
+    }
+
+    /** BUG-030: panel listelerinde görsel sütunu boş görünüyordu (göreli adres → Filament diskte arıyordu) */
+    public function test_admin_lists_show_cover_thumbnails_with_existing_files(): void
+    {
+        $media = $this->media();
+        $property = Property::create([
+            'title' => 'Görselli İlan', 'listing_type' => 'sale', 'property_type' => 'daire',
+            'city' => 'İstanbul', 'status' => 'published', 'cover_media_id' => $media->id,
+        ]);
+        Project::query()->update(['cover_media_id' => $media->id]);   // hangisi ilk sayfada olursa olsun
+
+        $expected = $media->absoluteUrl(480);
+        $this->assertStringStartsWith('http', $expected);
+        Storage::disk('media')->assertExists(str_replace(Storage::disk('media')->url(''), '', $media->url(480)));
+
+        Livewire::test(ListProperties::class)->assertSeeHtml('src="'.$expected.'"')->assertSee($property->title);
+        Livewire::test(ListProjects::class)->loadTable()->assertSeeHtml('src="'.$expected.'"');   // tablo ertelemeli yüklenir
+        Livewire::test(ListMedia::class)->assertSeeHtml('src="'.$expected.'"');
+    }
+
+    public function test_media_url_never_points_to_a_missing_variant(): void
+    {
+        $path = tempnam(sys_get_temp_dir(), 'gab').'.jpg';
+        imagejpeg(imagecreatetruecolor(400, 300), $path);   // 480'den küçük: tek türev 400
+        $small = app(MediaService::class)->importFile($path);
+
+        $this->assertSame([400], $small->widths());
+        foreach ([null, 480, 960, 2400, 100] as $width) {
+            $relative = str_replace(Storage::disk('media')->url(''), '', $small->url($width));
+            Storage::disk('media')->assertExists($relative);
+        }
     }
 
     public function test_login_records_last_login_and_activity(): void

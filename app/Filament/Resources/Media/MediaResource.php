@@ -55,7 +55,7 @@ class MediaResource extends Resource
             Grid::make(['default' => 1, 'lg' => 3])->columnSpanFull()->schema([
                 Section::make()->columnSpan(['lg' => 2])->schema([
                     ImageEntry::make('preview')->hiddenLabel()
-                        ->state(fn (Media $record) => $record->url(1600))
+                        ->state(fn (Media $record) => $record->absoluteUrl(1600))
                         ->imageHeight(420)->extraImgAttributes(['class' => 'object-contain']),
                 ]),
                 Section::make('Bilgiler')->columnSpan(['lg' => 1])->schema([
@@ -83,7 +83,7 @@ class MediaResource extends Resource
             ->paginated([20, 40, 80])
             ->columns([
                 Stack::make([
-                    ImageColumn::make('thumb')->state(fn (Media $r) => $r->url(480))
+                    ImageColumn::make('thumb')->state(fn (Media $r) => $r->absoluteUrl(480))
                         ->imageHeight(150)->imageWidth('100%')->extraImgAttributes(['class' => 'object-cover w-full', 'loading' => 'lazy']),
                     TextColumn::make('original_name')->searchable(['original_name', 'alt', 'title'])->limit(32)->weight('medium'),
                     TextColumn::make('meta')->size('xs')->color('gray')

@@ -17,7 +17,8 @@ class CommonColumns
     {
         return ImageColumn::make($relation.'_thumb')
             ->label($label)
-            ->state(fn ($record) => $record->{$relation}?->url(480))
+            // Mutlak adres şart: göreli yol verilirse Filament görseli diskte arar ve boş gösterir (BUG-030)
+            ->state(fn ($record) => $record->{$relation}?->absoluteUrl(480))
             ->imageHeight(52)
             ->imageWidth(70)
             ->extraImgAttributes(['class' => 'object-cover', 'loading' => 'lazy']);

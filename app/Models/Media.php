@@ -57,9 +57,23 @@ class Media extends Model
             return null;
         }
 
-        $width ??= collect($widths)->first(fn (int $w) => $w >= 960) ?? last($widths);
+        // Yalnızca gerçekten üretilmiş bir türevin adresi verilir: istenen genişlik yoksa ondan büyük
+        // en küçük türev, o da yoksa en büyük türev (ör. 400 px'lik görselde url(480) → 400.webp).
+        $target = $width ?? 960;
+        $width = collect($widths)->sort()->first(fn (int $w) => $w >= $target) ?? max($widths);
 
         return Storage::disk($this->disk)->url("{$this->directory()}/{$width}.{$format}");
+    }
+
+    /**
+     * Mutlak adres (https://…/media/…). Filament ImageColumn/ImageEntry göreli yolu
+     * dosya yolu sanıp varsayılan diskte arar ve görseli boş gösterir (BUG-030) → panelde bu kullanılır.
+     */
+    public function absoluteUrl(?int $width = null, string $format = 'webp'): ?string
+    {
+        $url = $this->url($width, $format);
+
+        return $url === null ? null : url($url);
     }
 
     public function srcset(string $format = 'webp'): string

@@ -72,7 +72,7 @@ class MediaUpload
                     'name' => $media->original_name,
                     'size' => $media->size,
                     'type' => $media->mime_type,
-                    'url' => $media->url(480),
+                    'url' => $media->absoluteUrl(480),
                 ] : null;
             })
             // MediaService reddederse (bozuk dosya, piksel sınırı) sunucu hatası değil alan altında mesaj
