@@ -8,6 +8,7 @@ use App\Models\Page;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\User;
+use App\Providers\AppServiceProvider;
 use App\Services\MediaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -174,12 +175,18 @@ class GoLiveTest extends TestCase
 
     public function test_sitemap_and_canonical_use_the_real_domain(): void
     {
-        config(['app.url' => 'https://gabarchitects.com', 'app.canonical_redirect' => true]);
-        \URL::forceRootUrl('https://gabarchitects.com');
+        config(['app.url' => 'https://gabarchitects.com', 'app.canonical_redirect' => true, 'seo.indexable' => true]);
+        $this->app->getProvider(AppServiceProvider::class)->boot();
 
-        $this->get('https://gabarchitects.com/')
-            ->assertSee('<link rel="canonical" href="https://gabarchitects.com"', false);
+        // Başka bir Host başlığıyla gelinse bile adresler APP_URL'den üretilir
+        $this->get('http://saldirgan.example/')
+            ->assertOk()
+            ->assertSee('<link rel="canonical" href="https://gabarchitects.com"', false)
+            ->assertDontSee('saldirgan.example');
         $this->get('https://gabarchitects.com/sitemap.xml')
-            ->assertSee('<loc>https://gabarchitects.com/projeler</loc>', false);
+            ->assertSee('<loc>https://gabarchitects.com/projeler</loc>', false)
+            ->assertDontSee('http://gabarchitects.com', false);
+        $this->get('https://gabarchitects.com/robots.txt')
+            ->assertSee('Sitemap: https://gabarchitects.com/sitemap.xml');
     }
 }

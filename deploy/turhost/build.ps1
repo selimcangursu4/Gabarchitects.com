@@ -16,6 +16,30 @@ $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 Set-Location $root
 
+Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
+
+# Zip with forward-slash entry names (Windows PowerShell 5.1 ZipFile writes backslashes, which Linux/cPanel
+# extracts as literal file names like "vendor\autoload.php"). Hidden files (.htaccess) and empty folders included.
+function New-Zip([string]$dir, [string]$zipPath) {
+    $dir = (Resolve-Path $dir).Path.TrimEnd('\')
+    $fs = [IO.File]::Open($zipPath, [IO.FileMode]::Create)
+    $zip = New-Object IO.Compression.ZipArchive($fs, [IO.Compression.ZipArchiveMode]::Create)
+    try {
+        foreach ($f in [IO.Directory]::EnumerateFiles($dir, '*', [IO.SearchOption]::AllDirectories)) {
+            $name = $f.Substring($dir.Length + 1).Replace('\', '/')
+            [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $f, $name, [IO.Compression.CompressionLevel]::Optimal) | Out-Null
+        }
+        foreach ($d in [IO.Directory]::EnumerateDirectories($dir, '*', [IO.SearchOption]::AllDirectories)) {
+            if (-not [IO.Directory]::EnumerateFileSystemEntries($d).GetEnumerator().MoveNext()) {
+                $zip.CreateEntry($d.Substring($dir.Length + 1).Replace('\', '/') + '/') | Out-Null
+            }
+        }
+    } finally {
+        $zip.Dispose()
+        $fs.Dispose()
+    }
+}
+
 function Run($exe, [string[]]$arguments) {
     & $exe @arguments
     if ($LASTEXITCODE -ne 0) { throw "$exe failed ($LASTEXITCODE)" }
@@ -32,7 +56,6 @@ New-Item -ItemType Directory -Force $app, $web | Out-Null
 Write-Output '1/6 Source (git archive HEAD)'
 $srcZip = Join-Path $outDir 'source.zip'
 Run git @('archive', '--format=zip', '-o', $srcZip, 'HEAD')
-Add-Type -AssemblyName System.IO.Compression.FileSystem
 [IO.Compression.ZipFile]::ExtractToDirectory($srcZip, $app)
 Remove-Item $srcZip
 
@@ -59,8 +82,8 @@ New-Item -ItemType Directory -Force (Join-Path $web 'media') | Out-Null
 [IO.File]::WriteAllText((Join-Path $app '.public_path'), "../public_html`n", (New-Object Text.UTF8Encoding($false)))
 
 Write-Output '6/6 Zip + .env'
-[IO.Compression.ZipFile]::CreateFromDirectory($app, (Join-Path $outDir 'gab.zip'))
-[IO.Compression.ZipFile]::CreateFromDirectory($web, (Join-Path $outDir 'public_html.zip'))
+New-Zip $app (Join-Path $outDir 'gab.zip')
+New-Zip $web (Join-Path $outDir 'public_html.zip')
 
 $bytes = New-Object byte[] 32
 [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)

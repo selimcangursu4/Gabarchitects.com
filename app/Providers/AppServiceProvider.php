@@ -14,6 +14,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +27,15 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Tek adres (TD-062): bağlantılar, kanonik, sitemap ve OG adresleri istek host'undan değil APP_URL'den
+        // üretilir (Host başlığı taklidiyle başka alan adı yazdırılamaz). Yalnızca canonical_redirect açıkken.
+        if (config('app.canonical_redirect') && filled(config('app.url'))) {
+            URL::forceRootUrl(rtrim((string) config('app.url'), '/'));
+            if (str_starts_with((string) config('app.url'), 'https://')) {
+                URL::forceScheme('https');
+            }
+        }
+
         // Geliştirmede: lazy loading, tanımsız attribute ve fillable dışı atamalar hata versin.
         Model::shouldBeStrict(! $this->app->isProduction());
 
