@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## [Kullanıcı talepleri] — 2026-11-08
+- **Marka değişikliği (TD-061):** "GAB Architects" → "GAB Gayrimenkul Proje Geliştirme": logo (iki satırlı alt yazı), sayfa başlıkları, meta/OG, schema, panel adı, hata sayfaları, ana sayfa/Hakkımızda/SSS içerikleri, `APP_NAME`. Veri migration'ı `2026_11_08_220000_rename_brand_to_gab_gayrimenkul`. Testler: eski ad 13 adreste yok, migration dönüşümü. 132 test.
 - Ana sayfa hero filtresi: fiyat, metrekare ve oda sayısı "Daha fazla seçenek" düğmesinin arkasında (aç/kapa, `aria-expanded`). JS kapalıyken alanlar açık; ilk boyamada gizleme CSS ile (sayfa kayması yok). Bu alanlardan biri doluysa açık başlar. Portföy sayfası yan paneli değişmedi.
 - BUG-030: panel listelerinde görsel sütunu boştu → `Media::absoluteUrl()`.
 - Testler: 130/130; tarayıcı testi (masaüstü + mobil + JS kapalı) 19/19.

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\Role;
 use App\Models\Page;
+use App\Models\Project;
 use App\Models\Redirect;
 use App\Models\User;
 use App\Services\SettingService;
@@ -19,6 +20,40 @@ class InfrastructureTest extends TestCase
     {
         parent::setUp();
         $this->seed();   // her test kendi transaction'ında (bkz. HomePageTest notu)
+    }
+
+    /** TD-061: marka "GAB Gayrimenkul Proje Geliştirme"; eski ad hiçbir sayfada görünmez */
+    public function test_old_brand_name_appears_nowhere(): void
+    {
+        $project = Project::published()->firstOrFail();
+
+        foreach (['/', '/hakkimizda', '/referanslar', '/hizmetler', '/projeler', $project->url(), '/portfoy', '/blog', '/iletisim', '/kvkk', '/olmayan-sayfa', '/sitemap.xml', '/admin/login'] as $url) {
+            $html = $this->get($url)->getContent();
+            $this->assertStringNotContainsStringIgnoringCase('GAB Architects', $html, $url);
+            $this->assertDoesNotMatchRegularExpression('/>\s*Architects\s*</i', $html, $url);
+        }
+
+        $this->get('/')->assertSee('GAB Gayrimenkul Proje Geliştirme');
+    }
+
+    /** Var olan veritabanları (Railway) migration ile yeni markaya geçer; Türkçe ek de düzelir */
+    public function test_brand_migration_updates_existing_content(): void
+    {
+        app(SettingService::class)->set('site.brand', 'GAB Architects', 'general');
+        $about = Page::where('key', 'about')->firstOrFail();
+        $about->update([
+            'title' => 'GAB Architects kimdir?',
+            'content' => array_merge($about->content ?? [], ['paragraphs' => ['GAB Architects\'in hikâyesi.']]),
+        ]);
+
+        $migration = require database_path('migrations/2026_11_08_220000_rename_brand_to_gab_gayrimenkul.php');
+        $migration->up();
+        SettingService::flush();
+
+        $this->assertSame('GAB Gayrimenkul Proje Geliştirme', settings('site.brand'));
+        $about->refresh();
+        $this->assertSame('GAB Gayrimenkul Proje Geliştirme kimdir?', $about->title);
+        $this->assertSame('GAB Gayrimenkul Proje Geliştirme\'nin hikâyesi.', $about->content['paragraphs'][0]);
     }
 
     public function test_seeded_admin_is_super_admin_and_can_do_everything(): void
@@ -70,7 +105,7 @@ class InfrastructureTest extends TestCase
 
     public function test_settings_are_cached_and_refreshed_on_change(): void
     {
-        $this->assertSame('GAB Architects', settings('site.brand'));
+        $this->assertSame('GAB Gayrimenkul Proje Geliştirme', settings('site.brand'));
 
         app(SettingService::class)->set('contact.phone', '+90 212 000 00 00', 'contact');
 

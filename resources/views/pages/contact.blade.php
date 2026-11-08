@@ -1,5 +1,5 @@
 @use('App\Support\StructuredData')
-<x-layouts.site :title="$page->meta_title ?: 'İletişim'" :description="$page->meta_description ?: 'GAB Architects iletişim bilgileri ve iletişim formu.'"
+<x-layouts.site :title="$page->meta_title ?: 'İletişim'" :description="$page->meta_description ?: (settings('site.brand') ?: config('gab.brand')).' iletişim bilgileri ve iletişim formu.'"
     :schema="[StructuredData::organization()]">
     <x-site.page-header
         title="İletişim"

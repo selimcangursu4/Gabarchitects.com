@@ -99,7 +99,7 @@ class SamplePropertySeeder extends Seeder
 
         $text = imagecolorallocate($img, 245, 243, 239);
         imagestring($img, 5, 60, 60, 'ORNEK GORSEL', $text);
-        imagestring($img, 3, 60, 90, 'GAB Architects - tasarim testi', $text);
+        imagestring($img, 3, 60, 90, 'GAB Gayrimenkul - tasarim testi', $text);
 
         $path = tempnam(sys_get_temp_dir(), 'gab').'.jpg';
         imagejpeg($img, $path, 85);

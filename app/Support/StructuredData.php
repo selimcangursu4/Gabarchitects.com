@@ -39,7 +39,7 @@ final class StructuredData
         return [
             '@type' => 'Organization',
             '@id' => self::organizationId(),
-            'name' => settings('site.brand', config('app.name')),
+            'name' => settings('site.brand') ?: config('gab.brand'),
             'url' => url('/'),
             'description' => settings('site.description'),
             'email' => settings('contact.email'),
@@ -59,7 +59,7 @@ final class StructuredData
             '@type' => 'WebSite',
             '@id' => url('/').'/#website',
             'url' => url('/'),
-            'name' => settings('site.brand', config('app.name')),
+            'name' => settings('site.brand') ?: config('gab.brand'),
             'inLanguage' => 'tr-TR',
             'publisher' => ['@id' => self::organizationId()],
         ];

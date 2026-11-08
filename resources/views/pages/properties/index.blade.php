@@ -1,5 +1,5 @@
 {{-- Filtrelenmiş sonuçlar dizine alınmaz (yinelenen/ince içerik); kanonik: filtresiz adres --}}
-<x-layouts.site :title="$title" :description="$title.' — GAB Architects gayrimenkul portföyü.'" :noindex="$activeFilterCount > 0">
+<x-layouts.site :title="$title" :description="$title.' — '.(settings('site.brand') ?: config('gab.brand')).' gayrimenkul portföyü.'" :noindex="$activeFilterCount > 0">
     <x-site.page-header
         :title="$title"
         eyebrow="Portföyümüz"

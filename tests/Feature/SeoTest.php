@@ -63,7 +63,7 @@ class SeoTest extends TestCase
         foreach (['/', '/hakkimizda', '/referanslar', '/hizmetler', '/projeler', $project->url(), '/blog', '/iletisim', '/portfoy', '/satilik'] as $url) {
             $html = $this->get($url)->assertOk()->getContent();
 
-            $this->assertMatchesRegularExpression('#<title>[^<]+GAB Architects</title>|<title>GAB Architects</title>#u', $html, $url);
+            $this->assertMatchesRegularExpression('#<title>[^<]+GAB Gayrimenkul Proje Geliştirme</title>|<title>GAB Gayrimenkul Proje Geliştirme</title>#u', $html, $url);
             $this->assertNotEmpty($this->meta($html, 'name', 'description'), "meta description yok: {$url}");
             $this->assertStringContainsString('<link rel="canonical" href="'.url($url === '/' ? '' : $url).'">', $html, $url);
             $this->assertStringContainsString('hreflang="tr"', $html, $url);
@@ -235,7 +235,7 @@ class SeoTest extends TestCase
 
         $org = $this->graph($graphs, 'Organization');
         $this->assertNotNull($org);
-        $this->assertSame('GAB Architects', $org['name']);
+        $this->assertSame('GAB Gayrimenkul Proje Geliştirme', $org['name']);
         $this->assertSame(settings('contact.address') ? 'TR' : null, $org['address']['addressCountry'] ?? null);
         $this->assertArrayNotHasKey('telephone', $org, 'Telefon girilmemişken uydurulmamalı');
         $this->assertNotNull($this->graph($graphs, 'WebSite'));

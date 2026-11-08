@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| GAB Architects — başlangıç içeriği
+| GAB Gayrimenkul Proje Geliştirme — başlangıç içeriği
 |--------------------------------------------------------------------------
 | Kaynak: https://gabarchitects.com (2026-11-08 itibarıyla canlı site).
-| Metinler mevcut siteden alınmıştır; marka adı "GAB Etiler" → "GAB Architects"
+| Metinler mevcut siteden alınmıştır; marka adı "GAB Etiler" → "GAB Gayrimenkul Proje Geliştirme"
 | olarak güncellenmiştir (TD-014).
 |
 | Bu dosyayı yalnızca SiteContentSeeder okur ve veritabanına aktarır. Site veritabanından çalışır;
@@ -18,7 +18,7 @@
 return [
 
     'settings' => [
-        'brand' => 'GAB Architects',
+        'brand' => 'GAB Gayrimenkul Proje Geliştirme',
         'tagline' => 'Arsadan anahtar teslime',
         'address' => "Etiler Mahallesi, Mehmet Bıyıklı Sokak, Güliz Apartmanı No:4 D:10\n(All Sport Cafe karşısı) Beşiktaş / İstanbul",
         'address_short' => 'Etiler, Beşiktaş / İstanbul',
@@ -42,7 +42,7 @@ return [
         'statement' => 'Her projeyi yalnızca bir yapı olarak değil; bulunduğu bölgeye, yatırımcısına ve geleceğe değer katan bir yaşam ve yatırım alanı olarak değerlendiriyoruz.',
         'intro' => [
             'title' => 'Güven, vizyon ve değer odaklı bir yaklaşım',
-            'text' => 'GAB Architects; İstanbul merkezli olarak lüks konut ve ticari alanlarda mimari tasarım, kat karşılığı proje geliştirme ve anahtar teslim inşaat hizmetleri sunan bir kurumdur. Arsa ve yatırım sahiplerine imar durumundan kâr analizine kadar tüm finansal süreçlerde danışmanlık sağlar.',
+            'text' => 'GAB Gayrimenkul Proje Geliştirme; İstanbul merkezli olarak lüks konut ve ticari alanlarda mimari tasarım, kat karşılığı proje geliştirme ve anahtar teslim inşaat hizmetleri sunan bir kurumdur. Arsa ve yatırım sahiplerine imar durumundan kâr analizine kadar tüm finansal süreçlerde danışmanlık sağlar.',
             'values' => ['Şeffaflık', 'Güvenilirlik', 'Kalite', 'Sürdürülebilirlik'],
         ],
         'services_intro' => 'Arsa geliştirme, kentsel dönüşüm, lüks konut, villa, ticari yapılar ve karma kullanım projelerinde; fizibilite analizlerinden mimari tasarıma, yatırım planlamasından uygulama yönetimine kadar kapsamlı çözümler sunuyoruz.',
@@ -74,13 +74,13 @@ return [
 
     // Mevcut /about/ sayfasından. Kuruluş hikâyesi, misyon ve ekip mevcut sitede yok (null).
     'about' => [
-        'title' => 'GAB Architects kimdir?',
+        'title' => 'GAB Gayrimenkul Proje Geliştirme kimdir?',
         'subtitle' => 'Güven, vizyon ve değer odaklı bir yaklaşım',
         'paragraphs' => [
-            'GAB Architects; gayrimenkul proje geliştirme, yatırım danışmanlığı, mimarlık ve inşaat alanlarında faaliyet gösteren, yenilikçi ve sonuç odaklı bir proje geliştirme şirketidir.',
+            'GAB Gayrimenkul Proje Geliştirme; gayrimenkul proje geliştirme, yatırım danışmanlığı, mimarlık ve inşaat alanlarında faaliyet gösteren, yenilikçi ve sonuç odaklı bir proje geliştirme şirketidir.',
             'Her projeyi yalnızca bir yapı olarak değil, bulunduğu bölgeye, yatırımcısına ve geleceğe değer katan bir yaşam ve yatırım alanı olarak değerlendiriyoruz. Stratejik planlama, teknik uzmanlık ve estetik yaklaşımı bir araya getirerek fikir aşamasından anahtar teslim sürecine kadar tüm aşamaları profesyonel bir anlayışla yönetiyoruz.',
             'Arsa geliştirme, kentsel dönüşüm, lüks konut, villa, ticari yapılar ve karma kullanım projelerinde; fizibilite analizlerinden mimari tasarıma, yatırım planlamasından uygulama yönetimine kadar kapsamlı çözümler sunuyoruz.',
-            'Şeffaflık, güvenilirlik, kalite ve sürdürülebilirlik ilkeleri doğrultusunda hareket eden GAB Architects, güçlü iş ortakları ve uzman kadrosuyla yatırımcıların ve arsa sahiplerinin güvenilir çözüm ortağı olmayı hedeflemektedir.',
+            'Şeffaflık, güvenilirlik, kalite ve sürdürülebilirlik ilkeleri doğrultusunda hareket eden GAB Gayrimenkul Proje Geliştirme, güçlü iş ortakları ve uzman kadrosuyla yatırımcıların ve arsa sahiplerinin güvenilir çözüm ortağı olmayı hedeflemektedir.',
             'Geleceğin yaşam alanlarını tasarlarken, yalnızca bugünün ihtiyaçlarını değil, yarının beklentilerini de dikkate alıyor; her projede yüksek kalite standartlarını, estetik anlayışı ve yatırım değerini ön planda tutuyoruz.',
         ],
         'vision' => 'Geliştirdiğimiz her projeyle bulunduğumuz bölgelere değer katmak, güven inşa etmek ve sürdürülebilir başarıya imza atmak.',
@@ -155,7 +155,7 @@ return [
     ],
 
     'faqs' => [
-        ['q' => 'GAB Architects hangi alanlarda hizmet vermektedir?', 'a' => 'GAB Architects; gayrimenkul proje geliştirme, yatırım danışmanlığı, mimarlık, iç mimarlık, inşaat ve taahhüt hizmetleri ile kentsel dönüşüm projelerinde uçtan uca profesyonel çözümler sunmaktadır.'],
+        ['q' => 'GAB Gayrimenkul Proje Geliştirme hangi alanlarda hizmet vermektedir?', 'a' => 'GAB Gayrimenkul Proje Geliştirme; gayrimenkul proje geliştirme, yatırım danışmanlığı, mimarlık, iç mimarlık, inşaat ve taahhüt hizmetleri ile kentsel dönüşüm projelerinde uçtan uca profesyonel çözümler sunmaktadır.'],
         ['q' => 'Proje geliştirme süreciniz nasıl ilerliyor?', 'a' => 'Süreç; arsa ve bölge analizi, fizibilite çalışmaları, konsept geliştirme, mimari projelendirme, bütçe planlaması ve uygulama yönetimi aşamalarından oluşur. Her proje, yatırım hedefleri doğrultusunda özel olarak planlanır.'],
         ['q' => 'Anahtar teslim inşaat hizmeti sunuyor musunuz?', 'a' => 'Evet. Konut, villa, ticari yapı ve özel projelerde kaba yapıdan ince işlere kadar tüm süreçleri tek çatı altında yönetiyor, anahtar teslim çözümler sunuyoruz.'],
         ['q' => 'Kentsel dönüşüm projelerinde destek sağlıyor musunuz?', 'a' => 'Evet. Kentsel dönüşüm süreçlerinde hak sahipleriyle koordinasyon, proje geliştirme, sözleşme danışmanlığı ve uygulama yönetimi hizmetleri sunarak sürecin güvenle ilerlemesini sağlıyoruz.'],

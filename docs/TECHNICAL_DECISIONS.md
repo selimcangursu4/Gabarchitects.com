@@ -17,7 +17,8 @@ Durumlar: **Önerildi** (onay bekliyor) · **Kabul** · **Reddedildi** · **İpt
 | TD-011 | Roller: `spatie/laravel-permission` | Kabul | Brief §7.8 |
 | TD-012 | Ek tablolar: `redirects`, `faqs`, `team_members`, `mediables`, `project_service` | Kabul | 301 yönetimi, SSS, ekip, medya takibi |
 | TD-013 | Gayrimenkul modülü varsayılan olarak kapalı | Kabul | Gerçek ilan yok |
-| TD-014 | Marka adı: **GAB Architects** | **Kabul (2026-11-08)** | Kullanıcı kararı |
+| TD-014 | Marka adı: **GAB Architects** | **İptal (2026-11-08)** → TD-061 | Kullanıcı kararı |
+| TD-061 | Marka adı: **GAB Gayrimenkul Proje Geliştirme**. Kaynak: Site Ayarları `site.brand` (panelden değişir), varsayılan `config('gab.brand')`. Logo: "GAB" + iki satır "Gayrimenkul / Proje Geliştirme". Var olan veritabanları migration ile güncellenir (`'in` → `'nin` dahil); iletişim mesajları ve işlem kayıtları değişmez. Alan adı, e-posta adresleri, depo adı (`gabarchitects.com`) değişmez | Kabul (2026-11-08, kullanıcı kararı) | "Sitede GAB Architects yazan her yeri GAB Gayrimenkul Proje Geliştirme olarak değiştir" |
 | TD-015 | Turhost analizi ertelendi; geliştirme ve onay lokalde yapılacak | **Kabul (2026-11-08)** | Kullanıcı kararı. Yine de paylaşımlı hosting uyumu korunacak |
 | TD-016 | Lokal veritabanı SQLite; migration'lar MySQL/MariaDB uyumlu yazılır | Kabul | Lokal makinede MySQL kurulu değil |
 | TD-017 | Laravel iskeleti PHASE 01'de kurulur (tasarım prototipi gerçek Blade layout'u üzerinde yapılır); veritabanı/model işleri PHASE 02'de | Kabul | Prototipin sonradan yeniden yazılmasını önler |

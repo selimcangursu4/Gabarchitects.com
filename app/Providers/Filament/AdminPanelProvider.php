@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->profile(isSimple: false)
-            ->brandName('GAB Architects')
+            ->brandName(fn () => config('gab.brand'))
             ->colors([
                 'primary' => Color::hex('#a58f70'),
                 'gray' => Color::Stone,

@@ -14,7 +14,7 @@ Kurallar:
 - Her fazın sonunda PROJECT_STATUS, PHASE_TRACKER ve CHANGELOG dosyalarını güncelle. Başarısız testleri başarılı olarak işaretleme.
 - Dokümantasyon dili Türkçe; kod, tablo ve değişken adları İngilizce.
 - **Kodlama:** Tüm dosyalar UTF-8. Windows'ta PowerShell `Add-Content`/`Set-Content`/`Out-File` ile kodlama belirtmeden dosyaya YAZMA (ANSI yazar, "ö" → "?"). Write/Edit araçlarını ya da `[IO.File]::WriteAllText(..., UTF8Encoding($false))` kullan. `tests/Unit/EncodingTest` bunu denetler.
-- Marka: **GAB Architects**. Site yalnızca Türkçe (çoklu dil yok). Varsayılan tema Dark. Admin paneli Filament.
+- Marka: **GAB Gayrimenkul Proje Geliştirme** (TD-061; eski "GAB Architects" kullanılmaz). Kodda marka yazma: `settings('site.brand') ?: config('gab.brand')` (hata sayfalarında yalnızca `config('gab.brand')`). Site yalnızca Türkçe (çoklu dil yok). Varsayılan tema Dark. Admin paneli Filament.
 - Laravel uygulaması depo kökündedir. Lokal veritabanı SQLite; migration'lar MySQL uyumlu olmalı.
 - Lokal sunucu: `php artisan serve --host=127.0.0.1 --port=8010` (8000 başka projede kullanılıyor).
 - Cache'e yalnızca düz dizi/scalar koy (Laravel 13 cache nesne geri yüklemez).

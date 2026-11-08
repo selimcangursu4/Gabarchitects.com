@@ -1,4 +1,4 @@
-<x-layouts.site title="Referanslar" description="GAB Architects'in mimarlık, iç mimarlık ve proje geliştirme alanlarındaki referansları.">
+<x-layouts.site title="Referanslar" :description="(settings('site.brand') ?: config('gab.brand')).' — mimarlık, iç mimarlık ve proje geliştirme alanlarındaki referanslarımız.'">
     <x-site.page-header
         title="Referanslar"
         eyebrow="Kurumsal"

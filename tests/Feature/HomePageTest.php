@@ -31,7 +31,7 @@ class HomePageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('<html lang="tr" data-theme="dark">', false)
-            ->assertSee('<title>GAB Architects</title>', false)
+            ->assertSee('<title>GAB Gayrimenkul Proje Geliştirme</title>', false)
             ->assertSee('Arsadan anahtar teslime.');
     }
 

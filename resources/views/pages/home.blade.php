@@ -96,7 +96,7 @@
     <section class="plan-lines border-t border-line section-y" aria-label="Yaklaşımımız">
         <div class="container-gab relative">
             <div class="grid-gab">
-                <p class="eyebrow col-span-4 lg:col-span-3" data-reveal lang="en">GAB Architects</p>
+                <p class="eyebrow col-span-4 lg:col-span-3" data-reveal>{{ settings('site.brand') ?: config('gab.brand') }}</p>
                 <blockquote class="col-span-4 mt-8 lg:col-span-9 lg:mt-0" data-reveal style="--reveal-delay: 100ms">
                     <p class="text-statement font-serif">
                         <span class="text-accent">“</span>{{ $home['statement'] }}<span class="text-accent">”</span>

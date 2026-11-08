@@ -11,7 +11,7 @@
 @use('App\Support\StructuredData')
 
 @php
-    $brand = settings('site.brand', config('app.name'));
+    $brand = settings('site.brand') ?: config('gab.brand');
     $pageTitle = $title ? "{$title} — {$brand}" : $brand;
     $description = \Illuminate\Support\Str::limit(trim(strip_tags((string) ($description ?: settings('site.description')))), 300);
 

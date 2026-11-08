@@ -177,7 +177,7 @@ class SiteContentSeeder extends Seeder
                 'cta' => $home['cta'],
             ],
             'meta_title' => null,
-            'meta_description' => 'GAB Architects — İstanbul merkezli mimarlık, iç mimarlık, gayrimenkul proje geliştirme ve anahtar teslim inşaat hizmetleri.',
+            'meta_description' => 'GAB Gayrimenkul Proje Geliştirme — İstanbul merkezli mimarlık, iç mimarlık, gayrimenkul proje geliştirme ve anahtar teslim inşaat hizmetleri.',
         ]);
 
         $about = $this->data['about'];

@@ -152,7 +152,7 @@ class ContactMessageResource extends Resource
     {
         return [
             Action::make('reply')->label('E-postayla yanıtla')->icon(Heroicon::OutlinedPaperAirplane)
-                ->url(fn (ContactMessage $record) => 'mailto:'.$record->email.'?subject='.rawurlencode('Re: '.($record->subject ?: 'GAB Architects'))),
+                ->url(fn (ContactMessage $record) => 'mailto:'.$record->email.'?subject='.rawurlencode('Re: '.($record->subject ?: (settings('site.brand') ?: config('gab.brand'))))),
             Action::make('update_status')->label('Durumu güncelle')->icon(Heroicon::OutlinedPencilSquare)
                 ->fillForm(fn (ContactMessage $record) => ['status' => $record->status->value, 'internal_notes' => $record->internal_notes])
                 ->schema([

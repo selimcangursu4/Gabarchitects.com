@@ -5,7 +5,7 @@
 **Sonraki faz:** PHASE 08 – Turhost Deployment
 
 ## Kararlar
-- Marka **GAB Architects** · Admin **Filament 5** (`/admin`) · **Yalnızca Türkçe** · Varsayılan tema **Dark**
+- Marka **GAB Gayrimenkul Proje Geliştirme** (TD-061) · Admin **Filament 5** (`/admin`) · **Yalnızca Türkçe** · Varsayılan tema **Dark**
 - Gayrimenkul portföyü sitenin merkezinde · Turhost analizi ertelendi
 - İlan detayında form yok: WhatsApp + Ara butonları (TD-047)
 
